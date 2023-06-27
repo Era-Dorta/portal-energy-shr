@@ -1,22 +1,13 @@
 {
   "siteTitle": "Future Mobility Data Marketplace",
-  "siteTagline": "Solving mobility challenges",
+  "siteTagline": "Lorem ipsum dolor sit amet consectetur.\nTincidunt feugiat ",
   "siteUrl": "https://portal.minimal-gaia-x.eu",
   "siteImage": "/share.png",
   "copyright": "All Rights Reserved.",
   "menu": [
     {
       "name": "About",
-      "subItems": [
-        {
-          "name": "This demo",
-          "link": "/about"
-        },
-        {
-          "name": "Gaia-X",
-          "link": "/gaia-x"
-        }
-      ]
+      "link": "#"
     },
     {
       "name": "Catalogue",

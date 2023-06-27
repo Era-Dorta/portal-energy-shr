@@ -13,7 +13,7 @@
   --link-hover-color: var(--brand-blue-light);
 
   /* Only use these vars for most color referencing for easy light/dark mode */
-  --font-color-text: var(--brand-blue-dark);
+  --font-color-text: var(--ocean-grey-dark);
   --font-color-text-inverted: var(--brand-white);
   --font-color-heading: var(--brand-blue-dark);
   --font-color-light: var(--color-secondary);
@@ -158,6 +158,14 @@
     'Segoe UI', Helvetica, Arial, sans-serif;
   --font-family-monospace: 'Fira Code', 'Fira Mono', Menlo, Monaco, Consolas,
     'Courier New', monospace;
+
+  --font-family-sans-serif: 'TT Commons', sans-serif;
+
+  --font-size-24: 24px;
+  --font-size-40: 40px;
+
+  --font-weight-normal: 400;
+  --font-weight-semi-bold: 600;
 
   --font-size-root: 15px;
   --font-size-base: 1rem;
