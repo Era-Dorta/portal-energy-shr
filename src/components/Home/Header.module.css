@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
   height: 100%;
   padding-top: var(--spacer);
   padding-bottom: var(--spacer);
@@ -17,7 +16,7 @@
 
 .content {
   max-width: 67rem;
-  margin: auto 0;
+  margin: 5%;
   display: flex;
   flex-direction: column;
 }

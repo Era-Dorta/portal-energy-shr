@@ -197,6 +197,7 @@
   --break-point--small: 640px;
   --break-point--medium: 860px;
   --break-point--large: 1140px;
+  --break-point--larger: 1300px;
   --break-point--huge: 1400px;
 }
 

@@ -51,9 +51,6 @@
 }
 
 @media screen and (min-width: 70rem) {
-  .menu {
-    padding: calc(var(--spacer) * 1.2) 0;
-  }
 }
 
 .navigation {
@@ -153,12 +150,19 @@ svg.caret {
 }
 
 @media screen and (min-width: 70rem) {
+  .menu {
+    padding: calc(var(--spacer) * 1.2) 0;
+  }
+
   .caret,
   svg.caret {
     display: inline-block;
   }
 
   .navigation {
-    margin-left: calc(var(--spacer) / 2);
+    margin-left: 36%;
+    width: 45%;
+    display: flex;
+    justify-content: space-evenly;
   }
 }

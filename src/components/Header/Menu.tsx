@@ -78,7 +78,6 @@ export default function Menu({
         </ul>
 
         <div className={styles.actions}>
-          <SearchButton />
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
           <Auth
             className={styles.link}
