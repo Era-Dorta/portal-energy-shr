@@ -161,11 +161,16 @@
 
   --font-family-sans-serif: 'TT Commons', sans-serif;
 
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-22: 22px;
   --font-size-24: 24px;
+  --font-size-32: 32px;
   --font-size-40: 40px;
 
   --font-weight-normal: 400;
-  --font-weight-semi-bold: 600;
+  --font-weight-semi-bold-500: 500;
+  --font-weight-semi-bold-600: 600;
 
   --font-size-root: 15px;
   --font-size-base: 1rem;
