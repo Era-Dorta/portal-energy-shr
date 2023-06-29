@@ -75,10 +75,9 @@
 
 .link {
   composes: text from '../@shared/atoms/Button/index.module.css';
-
   color: var(--sphereon-black);
-  font-weight: var(--menu-link-font-weight);
-  font-size: var(--menu-link-font-size);
+  font-weight: var(--font-weight-semi-bold-600);
+  font-size: var(--font-size-20);
 }
 
 .link,
@@ -160,7 +159,7 @@ svg.caret {
   }
 
   .navigation {
-    margin-left: 36%;
+    margin-left: 35%;
     width: 45%;
     display: flex;
     justify-content: space-evenly;

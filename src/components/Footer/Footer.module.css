@@ -1,6 +1,7 @@
 .footer {
-  min-height: 10rem;
-  background-color: var(--footer-background-color);
+  min-height: 205px;
+  display: flex;
+  flex-direction: column;
   color: var(--footer-font-color);
 }
 
@@ -12,7 +13,7 @@
 
 .logo,
 .content {
-  width: 100%;
+  width: 30%;
 }
 
 .logo {
@@ -60,8 +61,18 @@
 }
 
 .links {
-  display: grid;
-  grid-template-columns: minmax(max-content 1fr);
+  width: 70%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: var(--spacer);
+}
+
+.links > a {
+  color: #000000;
+  font-size: 22px;
+  font-family: TT Commons, sans-serif;
+  font-weight: 600;
 }
 
 .copyright {
@@ -85,6 +96,7 @@
   .container {
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
   .logo {
     justify-content: flex-start;

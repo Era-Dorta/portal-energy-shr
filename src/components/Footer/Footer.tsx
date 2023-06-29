@@ -1,85 +1,85 @@
 import Button from '@components/@shared/atoms/Button'
 import Container from '@components/@shared/atoms/Container'
 import Logo from '@components/@shared/atoms/Logo'
-import Markdown from '@components/@shared/Markdown'
-import { useMarketMetadata } from '@context/MarketMetadata'
-import { useUserPreferences } from '@context/UserPreferences'
-import { useGdprMetadata } from '@hooks/useGdprMetadata'
 import React, { ReactElement } from 'react'
 import styles from './Footer.module.css'
 
 export default function Footer(): ReactElement {
-  const { appConfig, siteContent } = useMarketMetadata()
-  const { copyright, footer } = siteContent
-  const { setShowPPC } = useUserPreferences()
-
-  const cookies = useGdprMetadata()
-
-  const year = new Date().getFullYear()
-
   return (
     <footer className={styles.footer}>
+      <div
+        style={{
+          height: '2.27rem',
+          borderTop: '2px solid black',
+          width: '90%',
+          marginLeft: '6%'
+        }}
+      ></div>
       <Container className={styles.container}>
         <div className={styles.logo}>
           <Logo />
         </div>
-        <div className={styles.content}>
-          <div className={styles.links}>
-            {footer.links.map((e) => (
-              <Button
-                key={e.label}
-                style="text"
-                className={styles.link}
-                to={e.link}
-              >
-                {e.label}
-              </Button>
-            ))}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignSelf: 'end',
+            width: '50rem',
+            paddingTop: 'var(--spacer)',
+            marginRight: '8rem'
+          }}
+        >
+          <div
+            style={{
+              color: 'var(--sphereon-black)',
+              fontSize: 'var(--font-size-16)',
+              fontFamily: 'var(--font-family-sans-serif)',
+              fontWeight: 'var(--font-weight-semi-bold-600)',
+              height: '3.47rem'
+            }}
+          >
+            Centre for Energy System Intelligence
           </div>
-          <div className={styles.copyrightContainer}>
-            <div className={styles.copyright}>
-              <span>
-                <Markdown text={footer.designedBy} />
-              </span>
-              <span>
-                <Markdown text={`&copy; ${year} ${copyright}`} />
-              </span>
+          <div
+            style={{
+              display: 'flex',
+              gap: '4rem'
+            }}
+          >
+            <div>
+              <img
+                style={{
+                  maxWidth: '100%',
+                  height: '3.4rem',
+                  width: '6.94rem',
+                  objectFit: 'contain'
+                }}
+                src="/images/partners/1-TU-Delft_logo.png"
+              />
             </div>
-            <div className={styles.legal}>
-              <Button
-                className={styles.linkButton}
-                style="text"
-                href="https://v4.portal.minimal-gaia-x.eu/imprint"
-              >
-                Imprint
-              </Button>
-              {' — '}
-              <Button
-                className={styles.linkButton}
-                style="text"
-                href="https://www.minimal-gaia-x.eu/privacy/en"
-              >
-                Privacy
-              </Button>
-              {appConfig.privacyPreferenceCenter === 'true' && (
-                <>
-                  {' — '}
-                  <Button
-                    style="text"
-                    size="small"
-                    className="link"
-                    onClick={() => {
-                      setShowPPC(true)
-                    }}
-                  >
-                    {cookies.optionalCookies?.length > 0
-                      ? 'Cookie Settings'
-                      : 'Cookies'}
-                  </Button>
-                </>
-              )}
+            <div>
+              <img
+                style={{
+                  maxWidth: '100%',
+                  height: '4.8rem',
+                  width: '5.14rem',
+                  objectFit: 'contain'
+                }}
+                src="/images/partners/2-erasmus_uni_logo.png"
+              />
             </div>
           </div>
+        </div>
+        <div className={styles.links}>
+          <Button style="text" to="/about">
+            About
+          </Button>
+          <Button style="text" to="/catalogue">
+            Catalogue
+          </Button>
+          <Button style="text" to="/#">
+            Quick start guide
+          </Button>
         </div>
       </Container>
     </footer>

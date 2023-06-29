@@ -27,10 +27,11 @@
   max-width: 397px;
   max-height: 280px;
   border-radius: 12px;
-  margin-bottom: calc(var(--spacer) * 1.5);
+  margin-bottom: calc(var(--spacer) * 3);
 }
 
 .highlightBox > span > h3 {
+  font-family: var(--font-family-sans-serif);
   color: var(--sphereon-white);
   font-size: var(--font-size-24);
   font-weight: var(--font-weight-semi-bold-600);
@@ -42,6 +43,7 @@
 }
 
 .highlightBox > a {
+  font-family: var(--font-family-sans-serif);
   color: var(--sphereon-white);
   font-size: var(--font-size-22);
 }

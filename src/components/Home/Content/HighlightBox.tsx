@@ -21,7 +21,7 @@ export default function HighlightBox({
   button,
   text
 }: {
-  icon: keyof typeof icons
+  icon?: keyof typeof icons
   title: string
   body: string
   buttonLabel: string
@@ -36,7 +36,7 @@ export default function HighlightBox({
   return (
     <div style={style} className={`${styles.container} ${className}`}>
       <span className={styles.heading}>
-        <span className={styles.icon}>{icons[icon]}</span>
+        {icon ? <span className={styles.icon}>{icons[icon]}</span> : ''}
         <h3>{title}</h3>
       </span>
       <Markdown {...text} text={body} />

@@ -72,7 +72,6 @@ export default function HomeContent(): ReactElement {
         }}
       >
         <HighlightBox
-          icon="eye"
           title={getInvolved.title}
           body={getInvolved.text}
           buttonLabel={getInvolved.buttonLabel}
@@ -82,7 +81,6 @@ export default function HomeContent(): ReactElement {
           button={{ style: 'text', arrow: true }}
         />
         <HighlightBox
-          icon="eye"
           title={firstTimeVisiting.title}
           body={firstTimeVisiting.text}
           buttonLabel={firstTimeVisiting.buttonLabel}
