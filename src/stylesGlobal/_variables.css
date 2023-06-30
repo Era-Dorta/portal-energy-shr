@@ -34,8 +34,8 @@
   --menu-logo-color: var(--color-primary);
   --menu-logo-color-hover: var(--color-primary);
   --menu-logo-size-sm: 17rem;
-  --menu-logo-size-lg: 20rem;
-  --menu-font-color: var(--color-primary);
+  --menu-logo-size-lg: 24rem;
+  --menu-font-color: var(--sphereon-black);
   --menu-font-color-active: var(--brand-blue-light);
   --menu-font-color-hover: var(--sphereon-light-blue);
   --menu-active-indicator-color: var(--brand-blue);
@@ -47,8 +47,8 @@
   --menu-icon-fill-color: var(--color-primary);
   --menu-icon-fill-color-hover: var(--color-primary);
   --menu-title-font-size: var(--font-size-h4);
-  --menu-link-font-size: var(--font-size-base);
-  --menu-link-font-weight: var(--font-weight-bold);
+  --menu-link-font-size: var(--font-size-20);
+  --menu-link-font-weight: var(--font-weight-semi-bold-600);
   --menu-link-font-weight-active: var(--font-weight-bold);
   --menu-caret-size: var(--font-size-small);
   --menu-caret-fill-color: var(--color-primary);

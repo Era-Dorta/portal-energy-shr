@@ -50,9 +50,6 @@
   }
 }
 
-@media screen and (min-width: 70rem) {
-}
-
 .navigation {
   white-space: nowrap;
   overflow-y: hidden;
@@ -75,9 +72,10 @@
 
 .link {
   composes: text from '../@shared/atoms/Button/index.module.css';
-  color: var(--sphereon-black);
-  font-weight: var(--font-weight-semi-bold-600);
-  font-size: var(--font-size-20);
+
+  color: var(--menu-font-color);
+  font-weight: var(--menu-link-font-weight);
+  font-size: var(--menu-link-font-size);
 }
 
 .link,
@@ -93,13 +91,10 @@
   z-index: 1;
 }
 
-.link:visited {
-  background: var(--sphereon-black);
-}
-
 .link:after {
   content: '';
   position: absolute;
+  background-color: var(--menu-font-color-hover);
   height: 2px;
   left: 1px;
   right: 1px;
@@ -109,7 +104,9 @@
   transition: transform 0.2s;
 }
 
-.link:hover {
+.link:hover,
+.link:focus,
+.link:active {
   color: var(--menu-font-color-hover);
 }
 
@@ -117,11 +114,11 @@
 .link:focus,
 .active,
 .active:hover {
-  color: var(--menu-font-color-active);
+  color: var(--menu-font-color-hover);
 }
 
 .active:after {
-  background-color: var(--menu-font-color-active);
+  background-color: var(--menu-font-color-hover);
 }
 
 .link[aria-disabled] {

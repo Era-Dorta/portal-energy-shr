@@ -78,11 +78,20 @@
 
 .content a:hover,
 .content a:focus,
+.content a:active,
 .content button:hover,
 .content button:focus,
+.content button:active,
 .link:hover,
-.link:focus {
+.link:focus,
+.link:active {
   color: var(--footer-font-color-highlight);
+}
+
+.topLine {
+  border-top: 2px solid var(--sphereon-black);
+  width: 90%;
+  margin-left: 6%;
 }
 
 @media screen and (min-width: 25rem) {

@@ -11,14 +11,7 @@ export default function Footer(): ReactElement {
 
   return (
     <footer className={styles.footer}>
-      <div
-        style={{
-          height: '2.27rem',
-          borderTop: '2px solid black',
-          width: '90%',
-          marginLeft: '6%'
-        }}
-      ></div>
+      <div className={styles.topLine}></div>
       <Container className={styles.container}>
         <div className={styles.logo}>
           <Logo />
