@@ -13,6 +13,7 @@ interface HomeContentData {
     text: string
   }
   points: {
+    title: string
     text: string
   }[]
   getInvolved: {
@@ -54,7 +55,14 @@ export default function HomeContent(): ReactElement {
             {points.map((point, i) => (
               <span key={i}>
                 <Checkmark className={styles.checkmark} />
-                <Markdown className={styles.pointText} text={point.text} />
+                <div className={`markdown ${styles.pointText}`}>
+                  <p>{point.title}</p>
+                  <p>
+                    {point.text.split('\n').map((line, index) => (
+                      <span key={index}>{line}</span>
+                    ))}
+                  </p>
+                </div>
               </span>
             ))}
           </div>

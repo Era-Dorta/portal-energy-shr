@@ -5,15 +5,21 @@
   },
   "points": [
     {
-      "text": "Lorem ipsum dolor sit\n<span>Lorem ipsum dolor sit amet consectetur.</span>"
+      "title": "Lorem ipsum dolor sit",
+      "text": "Lorem ipsum dolor sit amet consectetur."
     },
     {
-      "text": "Lorem ipsum dolor sit\nLorem ipsum dolor sit amet consectetur."
+      "title": "Lorem ipsum dolor sit",
+      "text": "Lorem ipsum dolor sit amet consectetur."
     },
     {
-      "text": "Lorem ipsum dolor sit\nLorem ipsum dolor sit amet consectetur."
+      "title": "Lorem ipsum dolor sit",
+      "text": "Lorem ipsum dolor sit amet consectetur."
     },
-    { "text": "Lorem ipsum dolor sit\nLorem ipsum dolor sit amet consectetur." }
+    {
+      "title": "Lorem ipsum dolor sit",
+      "text": "Lorem ipsum dolor sit amet consectetur."
+    }
   ],
   "getInvolved": {
     "title": "Get involved",
