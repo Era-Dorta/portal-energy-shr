@@ -55,6 +55,7 @@ export interface SiteContent {
   }
   footer: {
     designedBy: string
+    partner: string
     links: {
       label: string
       link: string

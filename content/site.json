@@ -7,7 +7,7 @@
   "menu": [
     {
       "name": "About",
-      "link": "#"
+      "link": "/about"
     },
     {
       "name": "Catalogue",
@@ -28,14 +28,14 @@
   },
   "footer": {
     "designedBy": "Designed by The Goodplace",
+    "partner": "Centre for Energy System Intelligence",
     "links": [
-      { "label": "About this demo", "link": "/about" },
-      { "label": "About Gaia-X", "link": "/gaia-x" },
+      { "label": "About", "link": "/about" },
       {
         "label": "Catalogue",
         "link": "/search?sort=nft.created&sortOrder=desc"
       },
-      { "label": "First time visiting", "link": "/onboarding" }
+      { "label": "Quick start guide", "link": "#" }
     ]
   }
 }

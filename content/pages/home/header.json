@@ -3,9 +3,12 @@
   "cta": [
     {
       "label": "Learn more",
-      "link": "/search?sort=_score&sortOrder=desc&text="
+      "link": "#"
     },
-    { "label": "View catalogue", "link": "/about" }
+    {
+      "label": "View catalogue",
+      "link": "/search?sort=_score&sortOrder=desc&text="
+    }
   ],
   "carousel": ["/images/headerCarousel/1-Energy-SHR.png"]
 }

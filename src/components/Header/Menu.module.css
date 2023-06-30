@@ -93,10 +93,13 @@
   z-index: 1;
 }
 
+.link:visited {
+  background: var(--sphereon-black);
+}
+
 .link:after {
   content: '';
   position: absolute;
-  background-color: var(--menu-font-color-hover);
   height: 2px;
   left: 1px;
   right: 1px;
@@ -159,9 +162,10 @@ svg.caret {
   }
 
   .navigation {
-    margin-left: 35%;
-    width: 45%;
+    margin-left: 26%;
+    margin-right: 5%;
+    width: 49%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
 }

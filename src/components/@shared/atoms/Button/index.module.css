@@ -100,16 +100,6 @@
   min-width: auto;
 }
 
-.ttCommons-semi-bold-24,
-.ttCommons-semi-bold-24:hover,
-.ttCommons-semi-bold-24:focus,
-.ttCommons-semi-bold-24:active {
-  font-family: var(--font-family-sans-serif);
-  font-size: var(--font-size-24);
-  font-weight: var(--font-weight-semi-bold-600);
-  color: var(--ocean-grey-dark);
-}
-
 /* Size Modifiers */
 .small {
   font-size: var(--font-size-small);

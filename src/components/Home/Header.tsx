@@ -88,7 +88,7 @@ export default function PageHeader(): ReactElement {
             {cta.map((e, i) => (
               <Button
                 key={i}
-                className="ttCommons-semi-bold-24"
+                className={styles.ttCommonsSemiBold24}
                 style="text"
                 arrow
                 to={e.link}

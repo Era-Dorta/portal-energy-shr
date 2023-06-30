@@ -74,16 +74,18 @@ export default function Menu({
               )}
             </li>
           ))}
+          <li>
+            <Auth
+              className={styles.link}
+              setShow={() => setShow(true)}
+              payload={payload}
+              setPayload={setPayload}
+            />
+          </li>
         </ul>
 
         <div className={styles.actions}>
           {appConfig.chainIdsSupported.length > 1 && <Networks />}
-          <Auth
-            className={styles.link}
-            setShow={() => setShow(true)}
-            payload={payload}
-            setPayload={setPayload}
-          />
         </div>
       </nav>
     </Container>

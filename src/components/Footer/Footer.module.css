@@ -26,24 +26,54 @@
 .content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--spacer);
+  align-self: end;
+  width: 50rem;
+  padding-top: var(--spacer);
+  margin-right: 8rem;
 }
 
-.content {
-  padding: var(--spacer) calc(var(--spacer) / 2);
+.partnerTextContainer {
+  color: var(--sphereon-black);
+  font-size: var(--font-size-16);
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-semi-bold-600);
+  height: 3.47rem;
 }
 
-.content a,
-.content button {
-  color: inherit;
+.partnerImageContainer {
+  display: flex;
+  gap: 4rem;
 }
 
-.content button,
+.partnerImageContainer:first-child > img {
+  max-width: 100%;
+  height: 3.4rem;
+  width: 6.94rem;
+  object-fit: contain;
+}
+
+.partnerImageContainer:nth-child(2) > img {
+  max-width: 100%;
+  height: 4.8rem;
+  width: 5.14rem;
+  object-fit: contain;
+}
+
+.linkContainer {
+  width: 70%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: var(--spacer);
+}
+
 .link {
   text-transform: none;
   transform: none !important;
-  font-weight: var(--font-weight-normal);
+  color: var(--sphereon-black);
+  font-size: var(--font-size-22);
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-semi-bold-600);
 }
 
 .content a:hover,
@@ -52,38 +82,7 @@
 .content button:focus,
 .link:hover,
 .link:focus {
-  color: var(--footer-font-color);
-  text-decoration: underline;
-}
-
-.content p {
-  display: inline;
-}
-
-.links {
-  width: 70%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: var(--spacer);
-}
-
-.links > a {
-  color: #000000;
-  font-size: 22px;
-  font-family: TT Commons, sans-serif;
-  font-weight: 600;
-}
-
-.copyright {
-  font-weight: var(--font-weight-bold);
-  min-width: fit-content;
-}
-
-.legal,
-.linkButton {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-light);
+  color: var(--footer-font-color-highlight);
 }
 
 @media screen and (min-width: 25rem) {
@@ -104,11 +103,5 @@
     margin-top: var(--spacer);
     margin-right: auto;
     padding: 0;
-  }
-  .content {
-    flex-direction: row;
-  }
-  .copyright {
-    min-width: max-content;
   }
 }
