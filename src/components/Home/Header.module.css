@@ -54,6 +54,16 @@
   );
 }
 
+.image {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.2) 100%
+    ),
+    url('/images/headerCarousel/1-Energy-SHR.png'),
+    lightgray -0.176px -128px / 100.024% 156.863% no-repeat;
+}
+
 .image,
 .carouselImageContainer:after {
   position: absolute;
