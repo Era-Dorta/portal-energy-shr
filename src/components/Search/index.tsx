@@ -7,7 +7,6 @@ import {
   AggregationResultUI,
   Filter,
   formatUIResults,
-  getResults,
   Keyword,
   StaticOption,
   updateQueryStringParameter
@@ -18,6 +17,7 @@ import styles from './index.module.css'
 import { useRouter } from 'next/router'
 import FacetedSearch from '@shared/facetedSearch/FacetedSearch'
 import FacetedTextSearchBar from '@components/@shared/facetedSearch/FacetedTextSearchBar'
+import { getAggregations, getPagedAssets } from '../../../graphql/fetchData'
 
 interface SearchParams {
   tags?: Array<Keyword>
@@ -80,19 +80,17 @@ export default function SearchPage({
   }
 
   const fetchAssets = useCallback(
-    async (
-      parsed: queryString.ParsedQuery,
-      chainIds: number[]
-    ): Promise<void> => {
+    async (parsed: queryString.ParsedQuery): Promise<void> => {
       setLoading(true)
       setTotalResults(undefined)
-      const queryResult = await getResults(parsed, chainIds, newCancelToken())
-      const aggregationResult = await getResults(
-        { faceted: true, offset: 0 },
-        chainIds,
+      const queryResult = await getPagedAssets(parsed, newCancelToken())
+      const aggregationResult = await getAggregations(
+        {
+          faceted: true,
+          offset: 0
+        },
         newCancelToken()
       )
-
       setAggregations(formatUIResults(aggregationResult))
       setPageAssets(queryResult)
     },
@@ -109,7 +107,7 @@ export default function SearchPage({
 
   useEffect((): void => {
     if (!parsed || !chainIds) return
-    fetchAssets(parsed, chainIds)
+    fetchAssets(parsed)
   }, [parsed, chainIds, newCancelToken, fetchAssets])
 
   async function onUpdateMenu(
@@ -127,18 +125,16 @@ export default function SearchPage({
     )
 
     const facetedResult: AggregationResultUI = formatUIResults(
-      await getResults(
+      await getAggregations(
         {
           text,
           filters: [...tagsFilters, ...staticFilters],
           offset: 0,
           faceted: true
         },
-        chainIds,
         newCancelToken()
       )
     )
-
     if (aggregations) {
       const updatedAggregationResult: AggregationResult[] =
         aggregations.static.map(
@@ -186,7 +182,7 @@ export default function SearchPage({
       (item: StaticOption) => item.filter
     )
 
-    const assets: PagedAssets = await getResults(
+    const assets = await getPagedAssets(
       {
         text,
         filters: [...tagsFilters, ...staticFilters],
@@ -194,7 +190,6 @@ export default function SearchPage({
         sortDirection: sortOrder,
         page: currentPage
       },
-      chainIds,
       newCancelToken()
     )
 

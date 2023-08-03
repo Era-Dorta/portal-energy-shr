@@ -47,14 +47,7 @@ export interface Filter {
 }
 
 export function getSearchQuery(
-  params: {
-    text?: string
-    page?: number
-    offset?: number
-    sort?: string
-    sortDirection?: string
-    filters?: Filter[]
-  },
+  params: Omit<GetResultsParams, 'faceted'>,
   chainIds: number[]
 ): SearchQuery {
   const { page, offset, sort, sortDirection, filters } = params
@@ -254,16 +247,18 @@ export const facetedQuery = (): AggregationQuery => {
   return aggQuery
 }
 
+export interface GetResultsParams {
+  text?: string
+  page?: number
+  offset?: number
+  sort?: string
+  sortDirection?: string
+  filters?: Filter[]
+  faceted?: boolean
+}
+
 export async function getResults(
-  params: {
-    text?: string
-    page?: number
-    offset?: number
-    sort?: string
-    sortDirection?: string
-    filters?: Filter[]
-    faceted?: boolean
-  },
+  params: GetResultsParams,
   chainIds: number[],
   cancelToken?: CancelToken
 ): Promise<PagedAssets> {
@@ -310,7 +305,7 @@ export function formatGraphQLResults(
   ][] = Object.entries(results.aggregations)
   return agg.map((a) => {
     const metadata = getSearchMetadata().find((m) => m.graphQLLabel === a[0])
-    return {
+    const c = {
       category: metadata.label,
       keywords: a[1].buckets.map((b) => ({
         label: b.key_as_string ?? b.key,
@@ -323,6 +318,7 @@ export function formatGraphQLResults(
         count: b.doc_count
       }))
     }
+    return c
   })
 }
 
@@ -378,9 +374,7 @@ export const formatPriceResults = (
         return {
           label: a.label,
           filter: {
-            ...b.filter,
-            category: a.filter.category,
-            location: b.filter.location,
+            ...a.filter,
             term: { value: '0' }
           },
           count: a.count + b.count
@@ -399,8 +393,7 @@ export const formatPriceResults = (
         return {
           label: a.label,
           filter: {
-            category: a.filter.category,
-            location: b.filter.location,
+            ...a.filter,
             range: [{ operation: 'gt', value: 0 }]
           },
           count: a.count + b.count
@@ -452,9 +445,9 @@ const formatAccessTypeResults = (
   return accessTypes
 }
 
-export const formatUIResults = (results: PagedAssets): AggregationResultUI => {
-  const aggregationResults: AggregationResult[] = formatGraphQLResults(results)
-
+export const formatUIResults = (
+  aggregationResults: AggregationResult[]
+): AggregationResultUI => {
   const everythingElse: AggregationResult[] = aggregationResults.filter(
     (ar: AggregationResult) =>
       ar.category !== 'Is Verified' &&
@@ -464,7 +457,6 @@ export const formatUIResults = (results: PagedAssets): AggregationResultUI => {
       ar.category !== 'Download Media Types' &&
       ar.category !== 'Access Type'
   )
-
   return {
     static: [
       ...everythingElse,
