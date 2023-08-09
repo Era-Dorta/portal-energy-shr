@@ -43,7 +43,6 @@ export default function App({
       )}
 
       <ToastContainer position="bottom-right" newestOnTop />
-      <LoginModal />
     </div>
   )
 }

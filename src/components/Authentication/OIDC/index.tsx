@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useOidc } from '@axa-fr/react-oidc'
-
+import { oidcLoginTabTitle, oidcLoginTabButton } from '../../../../app.config'
 const OidcTab: React.FC = () => {
   const { login } = useOidc()
 
@@ -37,7 +37,7 @@ const OidcTab: React.FC = () => {
               fontWeight: '600'
             }}
           >
-            Of log in met...
+            {oidcLoginTabTitle}
           </h5>
           <Button
             variant="primary"
@@ -48,7 +48,7 @@ const OidcTab: React.FC = () => {
               width: '50%'
             }}
           >
-            Met je instellingsaccount
+            {oidcLoginTabButton}
           </Button>
         </div>
       </div>
