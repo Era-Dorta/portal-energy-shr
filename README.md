@@ -469,8 +469,8 @@ The following variables are used in our environment for OIDC authentication. By 
 
 - `NEXT_PUBLIC_AUTH_OIDC_ACTIVATED`: Determines if the OIDC login mechanism is activated for the portal. If not set, this value will be 'false' by default.
 - `NEXT_PUBLIC_OIDC_MODAL_TAB_NAME`: If OIDC is activated, in the login modal, you'll see OIDC login with tab name that you set here. If not set, this value will be 'OIDC' by default
-- `NEXT_PUBLIC_OIDC_LOGIN_TAB_TITLE`: If OIDC is activated, in the login modal, you'll see OIDC login with this title. If not set, this value will be 'Of log in met...' by default.
-- `NEXT_PUBLIC_OIDC_LOGIN_TAB_BUTTON`: If OIDC is activated, in the login modal, you'll see OIDC login with this button. If not set, this value will be 'Met je instellingsaccount' by default.
+- `NEXT_PUBLIC_OIDC_LOGIN_TAB_TITLE`: If OIDC is activated, in the login modal, you'll see OIDC login with this title. If not set, this value will be 'Or log in with...' by default.
+- `NEXT_PUBLIC_OIDC_LOGIN_TAB_BUTTON`: If OIDC is activated, in the login modal, you'll see OIDC login with this button. If not set, this value will be 'With your institutional account' by default.
 - `NEXT_PUBLIC_OIDC_CLIENT_ID`: Client Identifier valid at the Authorization Server
 - `NEXT_PUBLIC_OIDC_REDIRECT_URI`: Redirection URI to which the response will be sent. This URI MUST exactly match one of the Redirection URI values for the Client pre-registered at the OpenID Provider
 - `NEXT_PUBLIC_OIDC_SCOPE`: OpenID Connect requests MUST contain the openid scope value. If the openid scope value is not present, the behavior is entirely unspecified.
