@@ -77,7 +77,11 @@ module.exports = {
   oidcRedirectUri: process.env.NEXT_PUBLIC_OIDC_REDIRECT_URI,
   oidcScope: process.env.NEXT_PUBLIC_OIDC_SCOPE,
   oidcSilentRedirectUri: process.env.NEXT_PUBLIC_OIDC_SILENT_REDIRECT_URI,
-
+  oidcLoginTabTitle:
+    process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_TITLE ?? 'Or log in with...',
+  oidcLoginTabButton:
+    process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_BUTTON ??
+    'With your institutional account',
   // Authentication part 2: SIOP
   isSiopActivated: process.env.NEXT_PUBLIC_AUTH_SIOP_ACTIVATED ?? 'false',
   // Base URL of the SSI agent capable of OpenID for Verifiable Presentations
