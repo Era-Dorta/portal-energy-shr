@@ -67,9 +67,7 @@ export default function Menu(): ReactElement {
           {siteContent?.menu.map((item: MenuItem) => {
             if (
               item.name === 'Publish' &&
-              (true ||
-                (authenticationStatus !== AuthenticationStatus.OIDC &&
-                  authenticationStatus !== AuthenticationStatus.SIOP))
+              authenticationStatus === AuthenticationStatus.NOT_AUTHENTICATED
             ) {
               return null
             }
