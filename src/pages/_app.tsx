@@ -18,6 +18,7 @@ import {
   isOIDCActivated,
   oidcAuthority,
   oidcClientId,
+  oidcClientSecret,
   oidcRedirectUri,
   oidcScope
 } from '../../app.config'
@@ -33,13 +34,18 @@ type AppContentProps = {
 }
 
 const oidcConfig: OidcConfiguration = {
-  client_id: oidcClientId ?? 'energySHRPortal',
+  client_id: oidcClientId ?? 'EnergySHR',
   redirect_uri:
     oidcRedirectUri ?? 'http://localhost:8000/authentication/callback',
   scope: oidcScope ?? 'openid profile email',
   authority: oidcAuthority ?? 'http://localhost:8888/auth/realms/conext',
   // service_worker_relative_url: '/OidcServiceWorker.js',
-  service_worker_only: false
+  service_worker_only: false,
+  ...(oidcClientSecret && {
+    token_request_extras: {
+      client_secret: oidcClientSecret
+    }
+  })
 }
 
 function wrapAuthProviders({

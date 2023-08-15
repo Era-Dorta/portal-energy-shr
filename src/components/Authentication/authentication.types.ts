@@ -1,8 +1,7 @@
 export enum AuthenticationStatus {
   NOT_AUTHENTICATED = 'NOT_AUTHENTICATED',
   SIOP = 'SIOP',
-  OIDC = 'OIDC',
-  WEB3_WALLET = 'WEB3_WALLET'
+  OIDC = 'OIDC'
 }
 
 export interface AuthenticationState {
