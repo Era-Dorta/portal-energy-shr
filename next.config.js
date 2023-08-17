@@ -1,3 +1,4 @@
+const { oidcBackendUrl } = require('./app.config')
 module.exports = (phase, { defaultConfig }) => {
   /**
    * @type {import('next').NextConfig}
@@ -61,6 +62,15 @@ module.exports = (phase, { defaultConfig }) => {
           source: '/publish',
           destination: '/publish/1',
           permanent: true
+        }
+      ]
+    },
+    // We proxy everything from /authentication to the Agent backend that acts as the OIDC client
+    async rewrites() {
+      return [
+        {
+          source: '/authentication/:slug*',
+          destination: `${oidcBackendUrl}/authentication/:slug*`
         }
       ]
     }
