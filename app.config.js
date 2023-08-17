@@ -70,21 +70,18 @@ module.exports = {
   purgatoryUrl: process.env.NEXT_PUBLIC_PURGATORY_URI,
 
   // Authentication part 1: OIDC
-  isOIDCActivated: process.env.NEXT_PUBLIC_AUTH_OIDC_ACTIVATED ?? 'true',
+  isOIDCActivated:
+    process.env.NEXT_PUBLIC_AUTH_OIDC_ACTIVATED?.toLowerCase() === 'true',
   oidcModalTabName: process.env.NEXT_PUBLIC_OIDC_MODAL_TAB_NAME ?? 'OIDC',
-  oidcAuthority: process.env.NEXT_PUBLIC_OIDC_AUTHORITY,
-  oidcClientId: process.env.NEXT_PUBLIC_OIDC_CLIENT_ID,
-  oidcClientSecret: process.env.NEXT_PUBLIC_OIDC_CLIENT_SECRET,
-  oidcRedirectUri: process.env.NEXT_PUBLIC_OIDC_REDIRECT_URI,
-  oidcScope: process.env.NEXT_PUBLIC_OIDC_SCOPE,
-  oidcSilentRedirectUri: process.env.NEXT_PUBLIC_OIDC_SILENT_REDIRECT_URI,
   oidcLoginTabTitle:
-    process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_TITLE ?? 'Or log in with...',
+    process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_TITLE ?? 'For the first time access',
   oidcLoginTabButton:
-    process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_BUTTON ??
-    'With your institutional account',
+    process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_BUTTON ?? 'your account',
+  oidcBackendUrl:
+    process.env.NEXT_PUBLIC_OIDC_BACKEND_URL ?? 'http://localhost:3000',
+
   // Authentication part 2: SIOP
-  isSiopActivated: process.env.NEXT_PUBLIC_AUTH_SIOP_ACTIVATED ?? 'false',
+  isSiopActivated: process.env.NEXT_PUBLIC_AUTH_SIOP_ACTIVATED === 'true',
   // Base URL of the SSI agent capable of OpenID for Verifiable Presentations
   siopAgentBaseURL: process.env.NEXT_PUBLIC_OID4VP_AGENT_BASE_URL,
   // Presentation Definition hosted by the SSI agent

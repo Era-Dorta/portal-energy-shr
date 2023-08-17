@@ -3,19 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AuthenticationStatus } from './authentication.types'
 import { logout } from '../../store/actions/authentication.actions'
 import { RootState } from '../../store'
-import { useOidc } from '@axa-fr/react-oidc'
 import { useSIOP } from '@components/Authentication/SIOP/siopAuth'
 import LoginModal from '@components/Authentication/index'
 import { isOIDCActivated } from '../../../app.config'
 import Button from '@shared/atoms/Button'
+import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
 
 export default function Auth({ className }: { className?: string }) {
-  let oidcLogoutFunc
-  if (JSON.parse(isOIDCActivated)) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { logout: oidcLogout } = useOidc()
-    oidcLogoutFunc = oidcLogout
-  }
+  const { logout: oidcLogout } = isOIDCActivated
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useOidcAuth()
+    : undefined
   const { logout: siopLogout } = useSIOP()
   const dispatch = useDispatch()
   const authenticationState = useSelector(
@@ -24,20 +22,20 @@ export default function Auth({ className }: { className?: string }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleLogout = () => {
+  const handleLogoutClick = async () => {
     switch (authenticationState) {
       case AuthenticationStatus.OIDC:
-        oidcLogoutFunc()
+        oidcLogout()
         break
       case AuthenticationStatus.SIOP:
         siopLogout()
+        dispatch(logout()) // todo: check whether it is needed for SIOP, not needed for OIDC
         break
     }
-    dispatch(logout())
   }
 
   const handleLoginClick = () => setIsModalOpen(true)
-  const handleModalClose = () => setIsModalOpen(false)
+  const handleModalCloseClick = () => setIsModalOpen(false)
 
   return (
     <>
@@ -47,11 +45,14 @@ export default function Auth({ className }: { className?: string }) {
             Login
           </Button>
           {isModalOpen && (
-            <LoginModal showModal={true} onCloseClicked={handleModalClose} />
+            <LoginModal
+              showModal={true}
+              onCloseClicked={handleModalCloseClick}
+            />
           )}
         </>
       ) : (
-        <Button style="text" className={className} onClick={handleLogout}>
+        <Button style="text" className={className} onClick={handleLogoutClick}>
           Logout
         </Button>
       )}

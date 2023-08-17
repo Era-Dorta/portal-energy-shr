@@ -113,6 +113,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       setWeb3Loading(true)
       LoggerInstance.log('[web3] Connecting Web3...')
 
+      // TODO: Use agent provider here if configured
       const provider = await web3Modal?.connect()
       setWeb3Provider(provider)
 

@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Modal, Nav } from 'react-bootstrap'
 import SiopTab from './SIOP/SiopTab'
 import { AuthorizationResponsePayload } from '@sphereon/did-auth-siop'
-import OidcTab from './OIDC'
+import OidcTab from './OIDC/OidcTab'
 import {
   oidcModalTabName,
   isOIDCActivated,
   isSiopActivated
 } from '../../../app.config'
-import { useOidc } from '@axa-fr/react-oidc'
+import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
 
 interface LoginModalProps {
   onCloseClicked?: () => void
@@ -17,15 +17,15 @@ interface LoginModalProps {
 
 const LoginModal = ({ onCloseClicked, showModal }: LoginModalProps) => {
   const [payload, setPayload] = useState<AuthorizationResponsePayload>()
-  const showOIDC = JSON.parse(isOIDCActivated)
-  const showSIOP = JSON.parse(isSiopActivated)
+  const showOIDC = isOIDCActivated
+  const showSIOP = isSiopActivated
   const initialTab = showOIDC ? 'oidc' : 'siop'
   const [activeTab, setActiveTab] = useState(initialTab)
 
-  let isOidcAuthenticated
-  if (JSON.parse(isOIDCActivated)) {
+  let isOidcAuthenticated: boolean
+  if (isOIDCActivated) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { isAuthenticated: oidcAuthenticated } = useOidc()
+    const { isAuthenticated: oidcAuthenticated } = useOidcAuth()
     isOidcAuthenticated = oidcAuthenticated
   }
   const handleTabChange = (tab) => {

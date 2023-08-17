@@ -10,7 +10,6 @@ import styles from './index.module.css'
 import { ToastContainer } from 'react-toastify'
 import contentPurgatory from '../../../content/purgatory.json'
 import { useMarketMetadata } from '@context/MarketMetadata'
-import LoginModal from '@components/Authentication'
 
 export default function App({
   children

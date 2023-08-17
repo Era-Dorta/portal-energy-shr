@@ -36,11 +36,15 @@ export default class SiopTab extends Component<
 
   render() {
     return (
-      <div style={{ height: '600px' }}>
+      <div style={{ height: '450px' }}>
         <Row>
           <Col
             className="left-column"
-            style={{ width: '540px', backgroundColor: '#EBEBEB' }}
+            style={{
+              width: '540px',
+              backgroundColor: '#EBEBEB',
+              height: '450px'
+            }}
           >
             <h5 style={{ marginTop: 60, marginBottom: 25, color: '#303030' }}>
               For the first time access
@@ -83,7 +87,7 @@ export default class SiopTab extends Component<
             >
               Step 3. Scan the QR code
             </h5>
-            <h6 style={{ marginBottom: 260, color: '#303030', fontSize: 12 }}>
+            <h6 style={{ marginBottom: 110, color: '#303030', fontSize: 12 }}>
               Scan the QR code on the right & share the credential form your
               wallet
             </h6>
