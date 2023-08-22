@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "npm run pregenerate && next dev",
-    "start:win": "next dev -p 8000",
+    "start:win": "cross-env NODE_OPTIONS='--inspect' next dev -p 8000",
     "start:prod": "npm run pregenerate && next -p ${PORT:-8000}",
     "build": "npm run pregenerate && next build",
     "build:static": "npm run build && next export",

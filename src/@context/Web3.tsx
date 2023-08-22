@@ -5,7 +5,8 @@ import React, {
   createContext,
   ReactElement,
   ReactNode,
-  useCallback
+  useCallback,
+  useRef
 } from 'react'
 import Web3 from 'web3'
 import Web3Modal, { getProviderInfo, IProviderInfo } from 'web3modal'
@@ -151,9 +152,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const [block, setBlock] = useState<number>()
   const [isTestnet, setIsTestnet] = useState<boolean>()
   const [web3Loading, setWeb3Loading] = useState<boolean>(true)
-  const [balance, setBalance] = useState<UserBalance>({
-    eth: '0'
-  })
+  const [balance, setBalance] = useState<UserBalance>({})
   const [isSupportedOceanNetwork, setIsSupportedOceanNetwork] = useState(true)
   const [approvedBaseTokens, setApprovedBaseTokens] = useState<TokenInfo[]>()
 
@@ -167,58 +166,76 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     }
     /* eslint-enable @typescript-eslint/no-explicit-any */
 
-    await web3Modal.clearCachedProvider()
+    web3Modal.clearCachedProvider()
   }
 
   // -----------------------------------
   // Helper: connect to web3
   // -----------------------------------
-  const connect = useCallback(async () => {
-    console.log('####CONNNNECT#######################')
-    console.log(undefined)
-    console.log('####CONNECT#######################')
+  const connect = useCallback(
+    async (disconnect?: boolean) => {
+      console.log('####CONNNNECT#######################')
+      console.log(disconnect)
+      console.log('####CONNECT#######################')
 
-    if (false) {
-      try {
-        logout()
-      } catch (error) {
-        console.log('$$$$$$ ' + error)
+      if (disconnect && web3Modal && web3) {
+        try {
+          console.log('LOGOUT')
+          logout()
+        } catch (error) {
+          console.log('$$$$$$ ' + error)
+        }
       }
-    }
-    if (!web3Modal) {
-      setWeb3Loading(false)
-      return
-    }
-    try {
-      setWeb3Loading(true)
-      LoggerInstance.log('[web3] Connecting Web3...')
+      if (!web3Modal) {
+        console.log('No web3modal. SetWeb3Loading: false')
+        setWeb3Loading(false)
+        return
+      }
+      try {
+        console.log('existing web3modal. SetWeb3Loading: true')
+        setWeb3Loading(true)
+        LoggerInstance.log('[web3] Connecting Web3...')
 
-      // TODO: Use agent provider here if configured
-      // const provider = await web3Modal.connectTo('custom-sphereon')
-      const provider = await web3Modal?.connect()
-      setWeb3Provider(provider)
+        // TODO: Use agent provider here if configured
+        const provider = await web3Modal.connectTo('custom-sphereon')
+        // const provider = await web3Modal?.connect()
+        setWeb3Provider(provider)
 
-      const web3 = new Web3(provider)
-      setWeb3(web3)
-      LoggerInstance.log('[web3] Web3 created.', web3)
+        const web3 = new Web3(provider)
+        setWeb3(web3)
+        LoggerInstance.log('[web3] Web3 created.', web3)
 
-      const accountId = (await web3.eth.getAccounts())[0]
-      setAccountId(accountId)
-      LoggerInstance.log('[web3] account id', accountId)
+        console.log('web3.eth.getAccounts...')
+        const accountId = (await web3.eth.getAccounts())[0]
+        console.log('web3.eth.getAccounts. setAccount id to ' + accountId)
+        setAccountId(accountId)
+        LoggerInstance.log('[web3] account id', accountId)
 
-      const networkId = await web3.eth.net.getId()
-      setNetworkId(networkId)
-      LoggerInstance.log('[web3] network id ', networkId)
+        const networkId = await web3.eth.net.getId()
+        setNetworkId(networkId)
+        LoggerInstance.log('[web3] network id ', networkId)
 
-      const chainId = await web3.eth.getChainId()
-      setChainId(chainId)
-      LoggerInstance.log('[web3] chain id ', chainId)
-    } catch (error) {
-      LoggerInstance.error('[web3] Error: ', error.message)
-    } finally {
-      setWeb3Loading(false)
-    }
-  }, [web3Modal])
+        const chainId = await web3.eth.getChainId()
+        setChainId(chainId)
+        LoggerInstance.log('[web3] chain id ', chainId)
+        console.log('NORMAL FINALLY')
+      } catch (error) {
+        LoggerInstance.error('[web3] Error: ', error.message)
+      } finally {
+        console.log(`--`)
+        console.log(`----`)
+        console.log(`------`)
+        console.log(`--------`)
+        console.log(`FINALLY ===>: web3loading: false`)
+        console.log(`--------`)
+        console.log(`------`)
+        console.log(`----`)
+        console.log(`--`)
+        setWeb3Loading(false)
+      }
+    },
+    [web3Modal]
+  )
 
   // -----------------------------------
   // Helper: Get approved base tokens list
@@ -237,14 +254,26 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // Helper: Get user balance
   // -----------------------------------
   const getUserBalance = useCallback(async () => {
-    if (!accountId || !networkId || !web3 || !networkData) return
+    if (!accountId || !networkId || !web3 || !networkData) {
+      console.log(
+        'NO USER BALANCE YET. Missing accountID, networkId, web3 or networkData'
+      )
+      return
+    }
+    LoggerInstance.log('^^^^^')
+    LoggerInstance.log(accountId)
+    LoggerInstance.log(networkId)
+    LoggerInstance.log(networkData)
+
+    const currentBalance = { ...balance }
+    LoggerInstance.log('Current BLANCE: ', currentBalance)
 
     try {
       const userBalance = web3.utils.fromWei(
         await web3.eth.getBalance(accountId, 'latest')
       )
-      const key = networkData.nativeCurrency.symbol.toLowerCase()
-      const balance: UserBalance = { [key]: userBalance }
+      const userToken = networkData.nativeCurrency.symbol.toLowerCase()
+      const newBalance: UserBalance = { [userToken]: userBalance }
 
       if (approvedBaseTokens?.length > 0) {
         await Promise.all(
@@ -256,13 +285,20 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
               address,
               web3
             )
-            balance[symbol.toLocaleLowerCase()] = tokenBalance
+            newBalance[symbol.toLocaleLowerCase()] = tokenBalance
           })
         )
       }
-
-      setBalance(balance)
-      LoggerInstance.log('[web3] Balance: ', balance)
+      if (newBalance !== currentBalance) {
+        LoggerInstance.log(
+          `[web3] Balance changed: ${JSON.stringify(
+            currentBalance
+          )}, ${JSON.stringify(newBalance)}`
+        )
+        setBalance(newBalance)
+      } else {
+        LoggerInstance.log('[web3] Balance did not change: ', currentBalance)
+      }
     } catch (error) {
       LoggerInstance.error('[web3] Error: ', error.message)
     }
@@ -272,6 +308,9 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // Create initial Web3Modal instance
   // -----------------------------------
   useEffect(() => {
+    console.log(`###==--> web3Modal: ${JSON.stringify(web3Modal)} `)
+    console.log(`###==--> web3: ${JSON.stringify(web3)} `)
+    console.log(`###==--> connect: ${JSON.stringify(connect)} `)
     if (web3Modal) {
       setWeb3Loading(false)
       return
@@ -321,13 +360,18 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   useEffect(() => {
     getUserBalance()
 
-    // init periodic refresh of wallet balance
+    /*  // init periodic refresh of wallet balance
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const balanceInterval = setInterval(() => getUserBalance(), refreshInterval)
 
     return () => {
-      clearInterval(balanceInterval)
-    }
+      clearTimeout(balanceInterval)
+    } */
   }, [getUserBalance])
+
+  useEffect(() => {
+    console.log(`BALANCE ===========> ${JSON.stringify(balance)}`)
+  }, [balance])
 
   // -----------------------------------
   // Get and set network metadata
@@ -396,6 +440,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // -----------------------------------
   // Handle change events
   // -----------------------------------
+  /*
   async function handleChainChanged(chainId: string) {
     LoggerInstance.log('[web3] Chain changed', chainId)
     const networkId = await web3.eth.net.getId()
@@ -415,24 +460,25 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     setAccountId(accounts[0])
   }
 
+
   useEffect(() => {
     if (!web3Provider || !web3) return
 
-    /* console.log('web3 on calls: 1')
+    console.log('web3 on calls: 1')
     web3Provider.on('chainChanged', handleChainChanged)
     console.log('web3 on calls: 2')
     web3Provider.on('networkChanged', handleNetworkChanged)
     console.log('web3 on calls: 3')
-    web3Provider.on('accountsChanged', handleAccountsChanged) */
+    web3Provider.on('accountsChanged', handleAccountsChanged)
 
     return () => {
-      /* web3Provider.removeListener('chainChanged', handleChainChanged)
+      web3Provider.removeListener('chainChanged', handleChainChanged)
       web3Provider.removeListener('networkChanged', handleNetworkChanged)
-      web3Provider.removeListener('accountsChanged', handleAccountsChanged) */
+      web3Provider.removeListener('accountsChanged', handleAccountsChanged)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3Provider, web3])
-
+  */
   return (
     <Web3Context.Provider
       value={{

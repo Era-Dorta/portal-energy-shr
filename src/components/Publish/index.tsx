@@ -19,7 +19,6 @@ import { getOceanConfig } from '@utils/ocean'
 import { validationSchema } from './_validation'
 import { useAbortController } from '@hooks/useAbortController'
 import { setNFTMetadataAndTokenURI } from '@utils/nft'
-import Wallet from '@components/Header/Wallet'
 
 export default function PublishPage({
   content
@@ -27,7 +26,7 @@ export default function PublishPage({
   content: { title: string; description: string; warning: string }
 }): ReactElement {
   const { debug } = useUserPreferences()
-  const { accountId, web3, chainId } = useWeb3()
+  const { accountId, web3, web3Modal, chainId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   const scrollToRef = useRef()
   const nftFactory = useNftFactory()

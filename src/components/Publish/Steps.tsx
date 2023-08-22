@@ -50,7 +50,7 @@ export function Steps({
     if (isBaseTokenSet) return
 
     setFieldValue('pricing.baseToken', defaultBaseToken)
-  }, [approvedBaseTokens])
+  }, [approvedBaseTokens, setFieldValue])
 
   // auto-sync publish feedback into form data values
   useEffect(() => {

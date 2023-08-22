@@ -12,11 +12,11 @@ export default {
 
 const Template: ComponentStory<typeof AssetList> = (args: AssetListProps) => {
   return (
-    <MarketMetadataProvider>
-      <UserPreferencesProvider>
-        <AssetList {...args} />
-      </UserPreferencesProvider>
-    </MarketMetadataProvider>
+    /* <MarketMetadataProvider> */
+    <UserPreferencesProvider>
+      <AssetList {...args} />
+    </UserPreferencesProvider>
+    /* </MarketMetadataProvider> */
   )
 }
 

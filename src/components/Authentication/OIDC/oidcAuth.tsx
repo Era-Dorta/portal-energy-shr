@@ -7,6 +7,7 @@ import { RootState } from '../../../store'
 import { setAuthState } from '../../../store/actions/authentication.actions'
 import { useRouter } from 'next/router'
 import { isOIDCActivated } from 'app.config'
+
 export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
   const router = useRouter()
 
@@ -38,7 +39,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    console.log('Querying user from backend....')
+    console.log(`Querying user ${oidcUserId}, ${oidcUser} from backend....`)
 
     fetch('/authentication/user', {
       method: 'GET',
@@ -47,6 +48,13 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     })
       .then((result) => {
         if (!result.ok) {
+          if (
+            authenticationState === AuthenticationStatus.NOT_AUTHENTICATED &&
+            oidcUser === null
+          ) {
+            console.log(`DOING NOTHING. State didn't change`)
+            return
+          }
           console.log('No User present or an error occurred.')
           setOidcUser({
             user: null,
@@ -55,6 +63,17 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
           dispatch(setAuthState(AuthenticationStatus.NOT_AUTHENTICATED))
         } else {
           result.json().then((oidc: OidcUserInfo) => {
+            if (
+              authenticationState !== AuthenticationStatus.NOT_AUTHENTICATED &&
+              oidcUser !== null
+            ) {
+              console.log(
+                `DOING NOTHING. State didn't change for ${oidcUserId}, ${JSON.stringify(
+                  oidcUser
+                )}`
+              )
+              return
+            }
             console.log(`User found. Dispatching authenticated state`)
             if (oidc.name || oidc.email) {
               setOidcUser({ user: oidc, status: AuthenticationStatus.OIDC })
@@ -92,7 +111,6 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     oidcUserLoadingState: oidcUser.status,
     reloadOidcUser,
     logout,
-    isAuthenticated:
-      authenticationState !== AuthenticationStatus.NOT_AUTHENTICATED
+    isAuthenticated: authenticationState === AuthenticationStatus.OIDC
   }
 }

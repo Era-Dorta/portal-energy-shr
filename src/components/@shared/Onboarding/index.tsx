@@ -39,7 +39,7 @@ export enum NavigationDirections {
 }
 
 export default function OnboardingSection(): ReactElement {
-  const { accountId, balance, networkId, web3Provider } = useWeb3()
+  const { accountId, networkId, web3Provider } = useWeb3()
   const { onboardingStep, setOnboardingStep } = useUserPreferences()
   const [onboardingCompleted, setOnboardingCompleted] = useState(false)
   const [navigationDirection, setNavigationDirection] =
@@ -54,7 +54,7 @@ export default function OnboardingSection(): ReactElement {
     if (accountId && web3Provider && networkId === GEN_X_NETWORK_ID) {
       setOnboardingCompleted(true)
     }
-  }, [accountId, balance, networkId, web3Provider])
+  }, [accountId, networkId, web3Provider])
 
   return (
     <div className={styles.wrapper}>

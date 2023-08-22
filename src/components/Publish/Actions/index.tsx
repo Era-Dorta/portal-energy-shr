@@ -33,7 +33,7 @@ export default function Actions({
     // prevent accidentially submitting a form the button might be in
     e.preventDefault()
 
-    await connect()
+    // await connect()
   }
 
   function handleAction(action: string) {
