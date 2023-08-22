@@ -40,11 +40,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
     )
   }
 
-  return (
-    <Provider store={store}>
-      <MyAppWithDispatch />
-    </Provider>
-  )
+  return <MyAppWithDispatch />
 }
 
 export default MyApp

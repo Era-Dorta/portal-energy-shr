@@ -114,13 +114,7 @@ const InputElement = forwardRef(
           })
         })
 
-        return (
-          <TabsFile
-            items={tabs}
-            key={`tabFile_${props.name}`}
-            className={styles.pricing}
-          />
-        )
+        return <TabsFile items={tabs} className={styles.pricing} />
       }
       case 'textarea':
         return (

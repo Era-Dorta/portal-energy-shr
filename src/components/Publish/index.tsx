@@ -280,12 +280,12 @@ export default function PublishPage({
     >
       {({ values }) => (
         <>
-          {/* <div className={styles.header}> */}
-          <PageHeader
-            title={<Title networkId={values.user.chainId} />}
-            description={content.description}
-          />
-          {/* </div> */}
+          <div className={styles.header}>
+            <PageHeader
+              title={<Title networkId={values.user.chainId} />}
+              description={content.description}
+            />
+          </div>
           {/* <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
             <Wallet />
           </div> */}

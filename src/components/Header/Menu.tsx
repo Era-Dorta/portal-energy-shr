@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
 import Link from 'next/link'
+import loadable from '@loadable/component'
 import Logo from '@shared/atoms/Logo'
 import Networks from './UserPreferences/Networks'
 import styles from './Menu.module.css'
@@ -13,7 +14,7 @@ import Auth from '@components/Authentication/Auth'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { AuthenticationStatus } from '@components/Authentication/authentication.types'
-import Wallet from '@components/Header/Wallet'
+const Wallet = loadable(() => import('./Wallet'))
 
 const cx = classNames.bind(styles)
 

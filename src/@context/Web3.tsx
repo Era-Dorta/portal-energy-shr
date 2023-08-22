@@ -173,55 +173,52 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // -----------------------------------
   // Helper: connect to web3
   // -----------------------------------
-  const connect = useCallback(
-    async (disconnect?: boolean) => {
-      console.log('####CONNNNECT#######################')
-      console.log(disconnect)
-      console.log('####CONNECT#######################')
+  const connect = useCallback(async () => {
+    console.log('####CONNNNECT#######################')
+    console.log(undefined)
+    console.log('####CONNECT#######################')
 
-      if (disconnect) {
-        try {
-          logout()
-        } catch (error) {
-          console.log('$$$$$$ ' + error)
-        }
-      }
-      if (!web3Modal) {
-        setWeb3Loading(false)
-        return
-      }
+    if (false) {
       try {
-        setWeb3Loading(true)
-        LoggerInstance.log('[web3] Connecting Web3...')
-
-        // TODO: Use agent provider here if configured
-        // const provider = await web3Modal.connectTo('custom-sphereon')
-        const provider = await web3Modal?.connect()
-        setWeb3Provider(provider)
-
-        const web3 = new Web3(provider)
-        setWeb3(web3)
-        LoggerInstance.log('[web3] Web3 created.', web3)
-
-        const accountId = (await web3.eth.getAccounts())[0]
-        setAccountId(accountId)
-        LoggerInstance.log('[web3] account id', accountId)
-
-        const networkId = await web3.eth.net.getId()
-        setNetworkId(networkId)
-        LoggerInstance.log('[web3] network id ', networkId)
-
-        const chainId = await web3.eth.getChainId()
-        setChainId(chainId)
-        LoggerInstance.log('[web3] chain id ', chainId)
+        logout()
       } catch (error) {
-        LoggerInstance.error('[web3] Error: ', error.message)
-      } finally {
-        setWeb3Loading(false)
+        console.log('$$$$$$ ' + error)
       }
-    },
-    [web3Modal]
-  )
+    }
+    if (!web3Modal) {
+      setWeb3Loading(false)
+      return
+    }
+    try {
+      setWeb3Loading(true)
+      LoggerInstance.log('[web3] Connecting Web3...')
+
+      // TODO: Use agent provider here if configured
+      // const provider = await web3Modal.connectTo('custom-sphereon')
+      const provider = await web3Modal?.connect()
+      setWeb3Provider(provider)
+
+      const web3 = new Web3(provider)
+      setWeb3(web3)
+      LoggerInstance.log('[web3] Web3 created.', web3)
+
+      const accountId = (await web3.eth.getAccounts())[0]
+      setAccountId(accountId)
+      LoggerInstance.log('[web3] account id', accountId)
+
+      const networkId = await web3.eth.net.getId()
+      setNetworkId(networkId)
+      LoggerInstance.log('[web3] network id ', networkId)
+
+      const chainId = await web3.eth.getChainId()
+      setChainId(chainId)
+      LoggerInstance.log('[web3] chain id ', chainId)
+    } catch (error) {
+      LoggerInstance.error('[web3] Error: ', error.message)
+    } finally {
+      setWeb3Loading(false)
+    }
+  }, [web3Modal])
 
   // -----------------------------------
   // Helper: Get approved base tokens list

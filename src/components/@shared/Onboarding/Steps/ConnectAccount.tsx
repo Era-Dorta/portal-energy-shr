@@ -32,10 +32,11 @@ export default function ConnectAccount(): ReactElement {
   const connectAccount = async () => {
     setLoading(true)
     try {
+      console.log(`web3 provider logout ----------------------------------`)
       web3Provider?.logout()
     } catch (error) {}
     try {
-      await connect(true)
+      await connect()
     } catch (error) {
       toast.error(
         getErrorMessage({

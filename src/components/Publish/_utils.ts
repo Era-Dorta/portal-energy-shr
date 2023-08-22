@@ -445,6 +445,7 @@ export async function transformPublishFormToDdo(
     name,
     description,
     tags,
+    author,
     termsAndConditions,
     dockerImage,
     dockerImageCustom,
@@ -503,9 +504,9 @@ export async function transformPublishFormToDdo(
     updated: currentTime,
     type,
     name,
-    author: '',
     description,
     tags: transformTags(tags),
+    author,
     license:
       values.metadata.license || 'https://market.oceanprotocol.com/terms',
     links: linksTransformed,

@@ -31,7 +31,7 @@ export function Steps({
     }
     setFieldValue('user.chainId', chainId)
     setFieldValue('user.accountId', accountId)
-  }, [chainId, accountId])
+  }, [chainId, accountId, setFieldValue])
 
   useEffect(() => {
     if (!approvedBaseTokens?.length) {

@@ -25,18 +25,7 @@ export default function TabsFile({
   className
 }: TabsProps): ReactElement {
   const { values, setFieldValue } = useFormikContext<FormPublishData>()
-  const initialState = () => {
-    const index = items.findIndex((tab: any) => {
-      // fallback for edit mode (starts at index 0 with hidden element)
-      if (!values?.services) return 0
-
-      return tab.field.value === values.services[0].files[0].type
-    })
-
-    return index < 0 ? 0 : index
-  }
-
-  const [tabIndex, setTabIndex] = useState(initialState)
+  const [tabIndex, setTabIndex] = useState(0)
   // hide tabs if are hidden
   const isHidden = items[tabIndex].props.value[0].type === 'hidden'
 
@@ -46,7 +35,6 @@ export default function TabsFile({
       return tab
     })
     setTabIndex(index)
-    console.log(`${items[index].props.name}[0]`)
     setFieldValue(`${items[index].props.name}[0]`, {
       url: '',
       type: items[index].field.value
@@ -88,10 +76,7 @@ export default function TabsFile({
         {items.map((item, index) => {
           return (
             <>
-              <TabPanel
-                key={`tabpanel_${items[tabIndex].props.name}_${index}`}
-                className={styles.tabPanel}
-              >
+              <TabPanel key={`tabpanel_${items[tabIndex].props.name}_${index}`}>
                 {!isHidden && (
                   <label className={styles.tabLabel}>
                     {item.field.label}
