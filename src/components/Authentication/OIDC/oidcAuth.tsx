@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react'
 import { AuthenticationStatus } from '@components/Authentication/authentication.types'
 import { OidcUser, OidcUserInfo } from '@components/Authentication/OIDC/types'
@@ -5,10 +6,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { setAuthState } from '../../../store/actions/authentication.actions'
 import { useRouter } from 'next/router'
-
+import { isOIDCActivated } from 'app.config'
 export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
-  const dispatch = useDispatch()
   const router = useRouter()
+
+  const logout = () => {
+    if (isOIDCActivated) {
+      router.push('/authentication/logout')
+    }
+  }
+  if (!isOIDCActivated) {
+    return {
+      oidcUser: undefined,
+      oidcUserLoadingState: AuthenticationStatus.NOT_AUTHENTICATED,
+      logout,
+      isAuthenticated: false
+    }
+  }
+
+  const dispatch = useDispatch()
   const authenticationState = useSelector(
     (state: RootState) => state.authentication.authenticationStatus
   )
@@ -17,8 +33,10 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     user: null,
     status: AuthenticationStatus.NOT_AUTHENTICATED
   })
+
   const [oidcUserId, setOidcUserId] = useState<string>('')
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     console.log('Querying user from backend....')
 
@@ -69,9 +87,6 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     setOidcUserId(oidcUserId + ' ')
   }
 
-  const logout = () => {
-    router.push('/authentication/logout')
-  }
   return {
     oidcUser: oidcUser.user,
     oidcUserLoadingState: oidcUser.status,

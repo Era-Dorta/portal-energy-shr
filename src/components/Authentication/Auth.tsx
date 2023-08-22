@@ -5,15 +5,11 @@ import { logout } from '../../store/actions/authentication.actions'
 import { RootState } from '../../store'
 import { useSIOP } from '@components/Authentication/SIOP/siopAuth'
 import LoginModal from '@components/Authentication/index'
-import { isOIDCActivated } from '../../../app.config'
 import Button from '@shared/atoms/Button'
 import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
 
 export default function Auth({ className }: { className?: string }) {
-  const { logout: oidcLogout } = isOIDCActivated
-    ? // eslint-disable-next-line react-hooks/rules-of-hooks
-      useOidcAuth()
-    : undefined
+  const { logout: oidcLogout } = useOidcAuth()
   const { logout: siopLogout } = useSIOP()
   const dispatch = useDispatch()
   const authenticationState = useSelector(

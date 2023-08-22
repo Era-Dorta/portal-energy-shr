@@ -18,14 +18,23 @@ export function Steps({
 
   // auto-sync user chainId & account into form data values
   useEffect(() => {
-    if (!chainId || !accountId) return
-
+    if (!chainId || !accountId) {
+      console.log('NOPE#1#################################')
+      console.log(`accountId ${accountId}`)
+      console.log(`chainId ${chainId}`)
+      console.log('NOPE#1#################################')
+      return
+    }
     setFieldValue('user.chainId', chainId)
     setFieldValue('user.accountId', accountId)
   }, [chainId, accountId, setFieldValue])
 
   useEffect(() => {
-    if (!approvedBaseTokens?.length) return
+    if (!approvedBaseTokens?.length) {
+      console.log('NOPE#2-------------------')
+      console.log('NOPE#2-------------------')
+      return
+    }
 
     const defaultBaseToken =
       approvedBaseTokens?.find((token) =>
@@ -58,7 +67,11 @@ export function Steps({
 
   // Auto-change default providerUrl on user network change
   useEffect(() => {
-    if (!values?.user?.chainId || isCustomProviderUrl === true) return
+    if (!values?.user?.chainId || isCustomProviderUrl === true) {
+      console.log('NOPE#3******************************')
+      console.log('NOPE#3******************************')
+      return
+    }
 
     const config = getOceanConfig(values.user.chainId)
     if (config) {

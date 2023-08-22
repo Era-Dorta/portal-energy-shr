@@ -22,6 +22,10 @@ import useNetworkMetadata, {
 import { useMarketMetadata } from './MarketMetadata'
 import { getTokenBalance } from '@utils/web3'
 import { getOpcsApprovedTokens } from '@utils/subgraph'
+import Web3HttpProvider from 'web3-providers-http'
+import { JsonRpcPayload, JsonRpcResponse } from 'web3-core-helpers'
+
+LoggerInstance.setLevel(3)
 
 interface Web3ProviderValue {
   web3: Web3
@@ -40,7 +44,7 @@ interface Web3ProviderValue {
   web3Loading: boolean
   isSupportedOceanNetwork: boolean
   approvedBaseTokens: TokenInfo[]
-  connect: () => Promise<void>
+  connect: (disconnect?: boolean) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -54,6 +58,58 @@ const web3ModalTheme = {
 
 const providerOptions = isBrowser
   ? {
+      'custom-sphereon': {
+        package: true,
+        display: {
+          name: 'Sphereon',
+          logo: '/images/sphereon-logo.jpg',
+          description: 'Sphereon Agent'
+        },
+        connector: async (_: any, opts?: any) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          const httpProvider = new Web3HttpProvider(opts.host, {
+            withCredentials: false
+          })
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          httpProvider.requests = async (
+            payload: JsonRpcPayload,
+            callback?: (error: Error | null, result?: JsonRpcResponse) => void
+          ) => {
+            console.log(`----------------REQUEST-START------------`)
+            console.log(JSON.stringify(payload, null, 2))
+            console.log(`----------------REQUEST-END--------------`)
+            let res: any
+            if (typeof callback !== 'function') {
+              callback = (error: Error | null, result?: JsonRpcResponse) => {
+                if (error) {
+                  throw error
+                }
+                res = result
+              }
+            }
+            await httpProvider.send(payload, callback)
+            console.log(`----------------RESPONSE-START------------`)
+            console.log(res)
+            console.log(`----------------RESPONSE-END------------`)
+            return res
+          }
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          httpProvider.sendAsync = async (
+            payload: JsonRpcPayload,
+            callback?: (error: Error | null, result?: JsonRpcResponse) => void
+          ) => {
+            return httpProvider.send(payload, callback)
+          }
+
+          return httpProvider
+        },
+        options: {
+          host: 'http://localhost:3000/web3/rpc'
+        }
+      },
       walletconnect: {
         package: WalletConnectProvider,
         options: {
@@ -89,11 +145,11 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const [web3ProviderInfo, setWeb3ProviderInfo] = useState<IProviderInfo>()
   const [networkId, setNetworkId] = useState<number>()
   const [chainId, setChainId] = useState<number>()
+  const [accountId, setAccountId] = useState<string>()
   const [networkDisplayName, setNetworkDisplayName] = useState<string>()
   const [networkData, setNetworkData] = useState<EthereumListsChain>()
   const [block, setBlock] = useState<number>()
   const [isTestnet, setIsTestnet] = useState<boolean>()
-  const [accountId, setAccountId] = useState<string>()
   const [web3Loading, setWeb3Loading] = useState<boolean>(true)
   const [balance, setBalance] = useState<UserBalance>({
     eth: '0'
@@ -102,42 +158,70 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const [approvedBaseTokens, setApprovedBaseTokens] = useState<TokenInfo[]>()
 
   // -----------------------------------
+  // Logout helper
+  // -----------------------------------
+  async function logout() {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    if ((web3?.currentProvider as any)?.close) {
+      await (web3.currentProvider as any).close()
+    }
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+
+    await web3Modal.clearCachedProvider()
+  }
+
+  // -----------------------------------
   // Helper: connect to web3
   // -----------------------------------
-  const connect = useCallback(async () => {
-    if (!web3Modal) {
-      setWeb3Loading(false)
-      return
-    }
-    try {
-      setWeb3Loading(true)
-      LoggerInstance.log('[web3] Connecting Web3...')
+  const connect = useCallback(
+    async (disconnect?: boolean) => {
+      console.log('####CONNNNECT#######################')
+      console.log(disconnect)
+      console.log('####CONNECT#######################')
 
-      // TODO: Use agent provider here if configured
-      const provider = await web3Modal?.connect()
-      setWeb3Provider(provider)
+      if (disconnect) {
+        try {
+          logout()
+        } catch (error) {
+          console.log('$$$$$$ ' + error)
+        }
+      }
+      if (!web3Modal) {
+        setWeb3Loading(false)
+        return
+      }
+      try {
+        setWeb3Loading(true)
+        LoggerInstance.log('[web3] Connecting Web3...')
 
-      const web3 = new Web3(provider)
-      setWeb3(web3)
-      LoggerInstance.log('[web3] Web3 created.', web3)
+        // TODO: Use agent provider here if configured
+        // const provider = await web3Modal.connectTo('custom-sphereon')
+        const provider = await web3Modal?.connect()
+        setWeb3Provider(provider)
 
-      const networkId = await web3.eth.net.getId()
-      setNetworkId(networkId)
-      LoggerInstance.log('[web3] network id ', networkId)
+        const web3 = new Web3(provider)
+        setWeb3(web3)
+        LoggerInstance.log('[web3] Web3 created.', web3)
 
-      const chainId = await web3.eth.getChainId()
-      setChainId(chainId)
-      LoggerInstance.log('[web3] chain id ', chainId)
+        const accountId = (await web3.eth.getAccounts())[0]
+        setAccountId(accountId)
+        LoggerInstance.log('[web3] account id', accountId)
 
-      const accountId = (await web3.eth.getAccounts())[0]
-      setAccountId(accountId)
-      LoggerInstance.log('[web3] account id', accountId)
-    } catch (error) {
-      LoggerInstance.error('[web3] Error: ', error.message)
-    } finally {
-      setWeb3Loading(false)
-    }
-  }, [web3Modal])
+        const networkId = await web3.eth.net.getId()
+        setNetworkId(networkId)
+        LoggerInstance.log('[web3] network id ', networkId)
+
+        const chainId = await web3.eth.getChainId()
+        setChainId(chainId)
+        LoggerInstance.log('[web3] chain id ', chainId)
+      } catch (error) {
+        LoggerInstance.error('[web3] Error: ', error.message)
+      } finally {
+        setWeb3Loading(false)
+      }
+    },
+    [web3Modal]
+  )
 
   // -----------------------------------
   // Helper: Get approved base tokens list
@@ -205,6 +289,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
         web3ModalInstance
       )
     }
+
     init()
   }, [connect, web3Modal])
 
@@ -221,6 +306,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       )
       await connect()
     }
+
     connectCached()
   }, [connect, web3Modal])
 
@@ -282,6 +368,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       setBlock(block)
       LoggerInstance.log('[web3] Head block: ', block)
     }
+
     getBlock()
   }, [web3, networkId])
 
@@ -297,18 +384,6 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     setWeb3ProviderInfo(providerInfo)
   }, [web3Provider])
 
-  // -----------------------------------
-  // Logout helper
-  // -----------------------------------
-  async function logout() {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    if ((web3?.currentProvider as any)?.close) {
-      await (web3.currentProvider as any).close()
-    }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
-
-    await web3Modal.clearCachedProvider()
-  }
   // -----------------------------------
   // Get valid Networks and set isSupportedOceanNetwork
   // -----------------------------------
@@ -346,14 +421,17 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   useEffect(() => {
     if (!web3Provider || !web3) return
 
+    /* console.log('web3 on calls: 1')
     web3Provider.on('chainChanged', handleChainChanged)
+    console.log('web3 on calls: 2')
     web3Provider.on('networkChanged', handleNetworkChanged)
-    web3Provider.on('accountsChanged', handleAccountsChanged)
+    console.log('web3 on calls: 3')
+    web3Provider.on('accountsChanged', handleAccountsChanged) */
 
     return () => {
-      web3Provider.removeListener('chainChanged', handleChainChanged)
+      /* web3Provider.removeListener('chainChanged', handleChainChanged)
       web3Provider.removeListener('networkChanged', handleNetworkChanged)
-      web3Provider.removeListener('accountsChanged', handleAccountsChanged)
+      web3Provider.removeListener('accountsChanged', handleAccountsChanged) */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3Provider, web3])

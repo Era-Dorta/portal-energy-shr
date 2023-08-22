@@ -35,7 +35,7 @@ async function getBlockHead(config: Config) {
   // for ETH main, get block from graph fetch
   if (config.network === 'mainnet') {
     const response: any = await fetchGraph(ethGraphUrl, ethGraphQueryBody)
-    return Number(response?.data?.blocks[0]?.number)
+    return response?.data?.blocks ? Number(response.data.blocks[0]?.number) : 0
   }
 
   // for everything else, create new web3 instance with infura

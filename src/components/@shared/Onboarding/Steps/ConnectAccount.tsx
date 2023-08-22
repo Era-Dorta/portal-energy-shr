@@ -17,12 +17,12 @@ export default function ConnectAccount(): ReactElement {
     buttonSuccess
   }: OnboardingStep = content
 
-  const { accountId, connect, web3Provider, networkId } = useWeb3()
+  const { accountId, connect, web3Provider, web3Modal, networkId } = useWeb3()
   const [loading, setLoading] = useState(false)
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    if (accountId) {
+    if (accountId && web3Modal.getUserOptions()) {
       setCompleted(true)
     } else {
       setCompleted(false)
@@ -32,7 +32,10 @@ export default function ConnectAccount(): ReactElement {
   const connectAccount = async () => {
     setLoading(true)
     try {
-      await connect()
+      web3Provider?.logout()
+    } catch (error) {}
+    try {
+      await connect(true)
     } catch (error) {
       toast.error(
         getErrorMessage({
