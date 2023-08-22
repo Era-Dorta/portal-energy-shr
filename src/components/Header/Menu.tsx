@@ -13,6 +13,7 @@ import Auth from '@components/Authentication/Auth'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { AuthenticationStatus } from '@components/Authentication/authentication.types'
+import Wallet from '@components/Header/Wallet'
 
 const cx = classNames.bind(styles)
 
@@ -86,6 +87,10 @@ export default function Menu(): ReactElement {
             <Auth className={styles.link} />
           </li>
         </ul>
+
+        <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+          <Wallet />
+        </div>
 
         <div className={styles.actions}>
           {appConfig.chainIdsSupported.length > 1 && <Networks />}

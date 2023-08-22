@@ -13,6 +13,10 @@ export function Steps({
   const { chainId, accountId, approvedBaseTokens } = useWeb3()
   const { values, setFieldValue, touched, setTouched } =
     useFormikContext<FormPublishData>()
+  console.log('++++++++++++')
+  console.log(`${values.metadata.name}`)
+  console.log(`${values.metadata.description}`)
+  console.log('++++++++++++')
 
   const isCustomProviderUrl = values?.services?.[0]?.providerUrl.custom
 
@@ -27,7 +31,7 @@ export function Steps({
     }
     setFieldValue('user.chainId', chainId)
     setFieldValue('user.accountId', accountId)
-  }, [chainId, accountId, setFieldValue])
+  }, [chainId, accountId])
 
   useEffect(() => {
     if (!approvedBaseTokens?.length) {
