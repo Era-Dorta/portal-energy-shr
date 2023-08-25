@@ -15,7 +15,9 @@ import styles from './index.module.css'
 import { useFormikContext } from 'formik'
 import { FormPublishData } from '@components/Publish/_types'
 import { getTokenBalanceFromSymbol } from '@utils/web3'
-import AssetStats from './AssetStats'
+
+import Wallet from '@components/Header/Wallet'
+import { isFeatureEnabled } from '@utils/features'
 
 export default function AssetActions({
   asset
@@ -158,6 +160,8 @@ export default function AssetActions({
   return (
     <>
       <Tabs items={tabs} className={styles.actions} />
+
+      {isFeatureEnabled('/ui/asset/wallet') && <Wallet />}
       <Web3Feedback
         networkId={asset?.chainId}
         accountId={accountId}

@@ -6,6 +6,7 @@ import StepBody from '../StepBody'
 import StepHeader from '../StepHeader'
 import { useWeb3 } from '@context/Web3'
 import content from '../../../../../content/onboarding/steps/connectAccount.json'
+import { LoggerInstance } from '@oceanprotocol/lib'
 
 export default function ConnectAccount(): ReactElement {
   const {
@@ -32,7 +33,6 @@ export default function ConnectAccount(): ReactElement {
   const connectAccount = async () => {
     setLoading(true)
     try {
-      console.log(`web3 provider logout ----------------------------------`)
       web3Provider?.logout()
     } catch (error) {}
     try {
@@ -45,7 +45,7 @@ export default function ConnectAccount(): ReactElement {
           networkId
         })
       )
-      console.error(error.message)
+      LoggerInstance.error(error)
     } finally {
       setLoading(false)
     }

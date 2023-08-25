@@ -15,7 +15,7 @@ export default function Datatoken({
   async function generateName() {
     const datatokenOptions = randomize
       ? generateDtName()
-      : { name: 'FutureMobility Datatoken', symbol: 'FMDM' }
+      : { name: 'EnergySHR Datatoken', symbol: 'ESHR' }
     helpers.setValue({ ...datatokenOptions })
   }
 

@@ -436,9 +436,6 @@ export async function transformPublishFormToDdo(
   nftAddress?: string
 ): Promise<DDO> {
   const { metadata, services, user } = values
-  console.log('---meta---')
-  console.log(metadata.name)
-  console.log(metadata.description)
   const { chainId, accountId } = user
   const {
     type,

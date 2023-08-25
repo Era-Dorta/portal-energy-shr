@@ -3,6 +3,7 @@ import FormHelp from '@shared/FormInput/Help'
 import Price from './Price'
 import Fees from './Fees'
 import styles from './Fixed.module.css'
+import { isFeatureDisabled, isFeatureEnabled } from '@utils/features'
 
 export default function Fixed({
   approvedBaseTokens,
@@ -18,7 +19,9 @@ export default function Fixed({
       <h4 className={styles.title}>Price</h4>
 
       <Price approvedBaseTokens={approvedBaseTokens} />
-      <Fees tooltips={content.tooltips} />
+      {isFeatureDisabled('/ui/publish/pricing/fees') || (
+        <Fees tooltips={content.tooltips} />
+      )}
     </>
   )
 }

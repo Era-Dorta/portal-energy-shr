@@ -13,30 +13,20 @@ export function Steps({
   const { chainId, accountId, approvedBaseTokens } = useWeb3()
   const { values, setFieldValue, touched, setTouched } =
     useFormikContext<FormPublishData>()
-  console.log('++++++++++++')
-  console.log(`${values.metadata.name}`)
-  console.log(`${values.metadata.description}`)
-  console.log('++++++++++++')
 
   const isCustomProviderUrl = values?.services?.[0]?.providerUrl.custom
 
   // auto-sync user chainId & account into form data values
   useEffect(() => {
     if (!chainId || !accountId) {
-      console.log('NOPE#1#################################')
-      console.log(`accountId ${accountId}`)
-      console.log(`chainId ${chainId}`)
-      console.log('NOPE#1#################################')
       return
     }
     setFieldValue('user.chainId', chainId)
     setFieldValue('user.accountId', accountId)
-  }, [chainId, accountId, setFieldValue])
+  }, [chainId, accountId])
 
   useEffect(() => {
     if (!approvedBaseTokens?.length) {
-      console.log('NOPE#2-------------------')
-      console.log('NOPE#2-------------------')
       return
     }
 
@@ -72,8 +62,6 @@ export function Steps({
   // Auto-change default providerUrl on user network change
   useEffect(() => {
     if (!values?.user?.chainId || isCustomProviderUrl === true) {
-      console.log('NOPE#3******************************')
-      console.log('NOPE#3******************************')
       return
     }
 

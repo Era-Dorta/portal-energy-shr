@@ -6,6 +6,7 @@ import styles from './Price.module.css'
 import { FormPublishData } from '../_types'
 import { getFieldContent } from '@utils/form'
 import CoinSelect from './CoinSelect'
+import { isFeatureDisabled } from '@utils/features'
 
 export default function Price({
   approvedBaseTokens,
@@ -30,7 +31,7 @@ export default function Price({
           />
         </div>
       ) : (
-        <>
+        /* isFeatureDisabled('/ui/publish/pricing/paid') || */ <>
           <div className={styles.grid}>
             <div className={styles.form}>
               <Input

@@ -4,7 +4,6 @@ import Web3Provider from '@context/Web3'
 import { UserPreferencesProvider } from '@context/UserPreferences'
 import UrqlProvider from '@context/UrqlProvider'
 import ConsentProvider from '@context/CookieConsent'
-// import MarketMetadataProvider from '@context/MarketMetadata'
 import { SearchBarStatusProvider } from '@context/SearchBarStatus'
 import App from '../../src/components/App'
 
@@ -19,29 +18,25 @@ import MarketMetadataProvider from '@context/MarketMetadata'
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
   Decimal.set({ rounding: 1 })
 
-  const MyAppWithDispatch = () => {
-    return (
-      <Provider store={store}>
-        <MarketMetadataProvider>
-          <Web3Provider>
-            <UrqlProvider>
-              <UserPreferencesProvider>
-                <ConsentProvider>
-                  <SearchBarStatusProvider>
-                    <App>
-                      <Component {...pageProps} />
-                    </App>
-                  </SearchBarStatusProvider>
-                </ConsentProvider>
-              </UserPreferencesProvider>
-            </UrqlProvider>
-          </Web3Provider>
-        </MarketMetadataProvider>
-      </Provider>
-    )
-  }
-
-  return <MyAppWithDispatch />
+  return (
+    <Provider store={store}>
+      <MarketMetadataProvider>
+        <Web3Provider>
+          <UrqlProvider>
+            <UserPreferencesProvider>
+              <ConsentProvider>
+                <SearchBarStatusProvider>
+                  <App>
+                    <Component {...pageProps} />
+                  </App>
+                </SearchBarStatusProvider>
+              </ConsentProvider>
+            </UserPreferencesProvider>
+          </UrqlProvider>
+        </Web3Provider>
+      </MarketMetadataProvider>
+    </Provider>
+  )
 }
 
 export default MyApp

@@ -11,6 +11,7 @@ import { algorithmContainerPresets } from '../_constants'
 import Alert from '@shared/atoms/Alert'
 import { useMarketMetadata } from '@context/MarketMetadata'
 import { getFieldContent } from '@utils/form'
+import { isFeatureDisabled } from '@utils/features'
 
 const assetTypeOptionsTitles = getFieldContent(
   'type',
@@ -88,11 +89,13 @@ export default function MetadataFields(): ReactElement {
         name="metadata.description"
         rows={7}
       />
-      <Field
-        {...getFieldContent('serviceSD', content.metadata.fields)}
-        component={Input}
-        name="metadata.gaiaXInformation.serviceSD"
-      />
+      {isFeatureDisabled('/ui/publish/self-description') || (
+        <Field
+          {...getFieldContent('serviceSD', content.metadata.fields)}
+          component={Input}
+          name="metadata.gaiaXInformation.serviceSD"
+        />
+      )}
       <Field
         {...getFieldContent('tags', content.metadata.fields)}
         component={Input}
@@ -143,11 +146,13 @@ export default function MetadataFields(): ReactElement {
 
       {values.metadata.type === 'dataset' && (
         <>
-          <Field
-            {...getFieldContent('containsPII', content.metadata.fields)}
-            component={Input}
-            name="metadata.gaiaXInformation.containsPII"
-          />
+          {isFeatureDisabled('/ui/publish/pii-checkbox') || (
+            <Field
+              {...getFieldContent('containsPII', content.metadata.fields)}
+              component={Input}
+              name="metadata.gaiaXInformation.containsPII"
+            />
+          )}
 
           {values.metadata.gaiaXInformation.containsPII === true && (
             <div className={styles.gdpr}>
