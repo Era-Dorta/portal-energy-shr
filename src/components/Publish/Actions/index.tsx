@@ -21,19 +21,19 @@ export default function Actions({
 }): ReactElement {
   const router = useRouter()
   const { isSupportedOceanNetwork } = useWeb3()
+  const { connect, accountId } = useWeb3()
   const {
     values,
     errors,
     isValid,
     isSubmitting
   }: FormikContextType<FormPublishData> = useFormikContext()
-  const { connect, accountId } = useWeb3()
 
   async function handleActivation(e: FormEvent<HTMLButtonElement>) {
     // prevent accidentially submitting a form the button might be in
     e.preventDefault()
 
-    await connect()
+    // await connect()
   }
 
   function handleAction(action: string) {

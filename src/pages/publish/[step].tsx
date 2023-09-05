@@ -6,6 +6,7 @@ import router from 'next/router'
 
 export default function PagePublish(): ReactElement {
   const { title, description } = content
+
   return (
     <Page
       title={title}

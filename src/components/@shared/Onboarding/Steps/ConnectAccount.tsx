@@ -6,6 +6,7 @@ import StepBody from '../StepBody'
 import StepHeader from '../StepHeader'
 import { useWeb3 } from '@context/Web3'
 import content from '../../../../../content/onboarding/steps/connectAccount.json'
+import { LoggerInstance } from '@oceanprotocol/lib'
 
 export default function ConnectAccount(): ReactElement {
   const {
@@ -17,12 +18,12 @@ export default function ConnectAccount(): ReactElement {
     buttonSuccess
   }: OnboardingStep = content
 
-  const { accountId, connect, web3Provider, networkId } = useWeb3()
+  const { accountId, connect, web3Provider, web3Modal, networkId } = useWeb3()
   const [loading, setLoading] = useState(false)
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    if (accountId) {
+    if (accountId && web3Modal.getUserOptions()) {
       setCompleted(true)
     } else {
       setCompleted(false)
@@ -31,6 +32,9 @@ export default function ConnectAccount(): ReactElement {
 
   const connectAccount = async () => {
     setLoading(true)
+    try {
+      web3Provider?.logout()
+    } catch (error) {}
     try {
       await connect()
     } catch (error) {
@@ -41,7 +45,7 @@ export default function ConnectAccount(): ReactElement {
           networkId
         })
       )
-      console.error(error.message)
+      LoggerInstance.error(error)
     } finally {
       setLoading(false)
     }

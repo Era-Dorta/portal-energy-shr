@@ -27,7 +27,7 @@ export interface FormPublishData {
     type: 'dataset' | 'algorithm'
     name: string
     description: string
-    author: string
+    author?: string
     termsAndConditions: boolean
     gaiaXInformation: {
       termsAndConditions: FileInfo[]

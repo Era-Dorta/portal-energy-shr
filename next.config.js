@@ -71,6 +71,10 @@ module.exports = (phase, { defaultConfig }) => {
         {
           source: '/authentication/:slug*',
           destination: `${oidcBackendUrl}/authentication/:slug*`
+        },
+        {
+          source: '/web3/rpc',
+          destination: 'http://127.0.0.1:2999/web3/rpc'
         }
       ]
     }

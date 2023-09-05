@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react'
 import { AuthenticationStatus } from '@components/Authentication/authentication.types'
 import { OidcUser, OidcUserInfo } from '@components/Authentication/OIDC/types'
@@ -5,10 +6,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store'
 import { setAuthState } from '../../../store/actions/authentication.actions'
 import { useRouter } from 'next/router'
+import { isOIDCActivated } from 'app.config'
 
 export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
-  const dispatch = useDispatch()
   const router = useRouter()
+
+  const logout = () => {
+    if (isOIDCActivated) {
+      router.push('/authentication/logout')
+    }
+  }
+  if (!isOIDCActivated) {
+    return {
+      oidcUser: undefined,
+      oidcUserLoadingState: AuthenticationStatus.NOT_AUTHENTICATED,
+      logout,
+      isAuthenticated: false
+    }
+  }
+
+  const dispatch = useDispatch()
   const authenticationState = useSelector(
     (state: RootState) => state.authentication.authenticationStatus
   )
@@ -17,10 +34,12 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     user: null,
     status: AuthenticationStatus.NOT_AUTHENTICATED
   })
+
   const [oidcUserId, setOidcUserId] = useState<string>('')
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    console.log('Querying user from backend....')
+    console.log(`Querying user ${oidcUserId}, ${oidcUser} from backend....`)
 
     fetch('/authentication/user', {
       method: 'GET',
@@ -29,6 +48,13 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     })
       .then((result) => {
         if (!result.ok) {
+          if (
+            authenticationState === AuthenticationStatus.NOT_AUTHENTICATED &&
+            oidcUser === null
+          ) {
+            console.log(`DOING NOTHING. State didn't change`)
+            return
+          }
           console.log('No User present or an error occurred.')
           setOidcUser({
             user: null,
@@ -37,6 +63,17 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
           dispatch(setAuthState(AuthenticationStatus.NOT_AUTHENTICATED))
         } else {
           result.json().then((oidc: OidcUserInfo) => {
+            if (
+              authenticationState !== AuthenticationStatus.NOT_AUTHENTICATED &&
+              oidcUser !== null
+            ) {
+              console.log(
+                `DOING NOTHING. State didn't change for ${oidcUserId}, ${JSON.stringify(
+                  oidcUser
+                )}`
+              )
+              return
+            }
             console.log(`User found. Dispatching authenticated state`)
             if (oidc.name || oidc.email) {
               setOidcUser({ user: oidc, status: AuthenticationStatus.OIDC })
@@ -69,15 +106,11 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
     setOidcUserId(oidcUserId + ' ')
   }
 
-  const logout = () => {
-    router.push('/authentication/logout')
-  }
   return {
     oidcUser: oidcUser.user,
     oidcUserLoadingState: oidcUser.status,
     reloadOidcUser,
     logout,
-    isAuthenticated:
-      authenticationState !== AuthenticationStatus.NOT_AUTHENTICATED
+    isAuthenticated: authenticationState === AuthenticationStatus.OIDC
   }
 }

@@ -20,6 +20,7 @@ import { validationSchema } from './_validation'
 import { useAbortController } from '@hooks/useAbortController'
 import { setNFTMetadataAndTokenURI } from '@utils/nft'
 import Wallet from '@components/Header/Wallet'
+import { isFeatureEnabled } from '@utils/features'
 
 export default function PublishPage({
   content
@@ -27,7 +28,7 @@ export default function PublishPage({
   content: { title: string; description: string; warning: string }
 }): ReactElement {
   const { debug } = useUserPreferences()
-  const { accountId, web3, chainId } = useWeb3()
+  const { accountId, web3, web3Modal, chainId } = useWeb3()
   const { isInPurgatory, purgatoryData } = useAccountPurgatory(accountId)
   const scrollToRef = useRef()
   const nftFactory = useNftFactory()
@@ -286,9 +287,11 @@ export default function PublishPage({
               description={content.description}
             />
           </div>
-          <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-            <Wallet />
-          </div>
+          {isFeatureEnabled('/ui/publish/wallet') && (
+            <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+              <Wallet />
+            </div>
+          )}
           <Form className={styles.form} ref={scrollToRef}>
             <Navigation />
             <Steps feedback={feedback} />

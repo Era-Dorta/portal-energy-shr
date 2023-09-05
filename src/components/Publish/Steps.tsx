@@ -18,14 +18,17 @@ export function Steps({
 
   // auto-sync user chainId & account into form data values
   useEffect(() => {
-    if (!chainId || !accountId) return
-
+    if (!chainId || !accountId) {
+      return
+    }
     setFieldValue('user.chainId', chainId)
     setFieldValue('user.accountId', accountId)
-  }, [chainId, accountId, setFieldValue])
+  }, [chainId, accountId])
 
   useEffect(() => {
-    if (!approvedBaseTokens?.length) return
+    if (!approvedBaseTokens?.length) {
+      return
+    }
 
     const defaultBaseToken =
       approvedBaseTokens?.find((token) =>
@@ -37,7 +40,7 @@ export function Steps({
     if (isBaseTokenSet) return
 
     setFieldValue('pricing.baseToken', defaultBaseToken)
-  }, [approvedBaseTokens])
+  }, [approvedBaseTokens, setFieldValue])
 
   // auto-sync publish feedback into form data values
   useEffect(() => {
@@ -58,7 +61,9 @@ export function Steps({
 
   // Auto-change default providerUrl on user network change
   useEffect(() => {
-    if (!values?.user?.chainId || isCustomProviderUrl === true) return
+    if (!values?.user?.chainId || isCustomProviderUrl === true) {
+      return
+    }
 
     const config = getOceanConfig(values.user.chainId)
     if (config) {

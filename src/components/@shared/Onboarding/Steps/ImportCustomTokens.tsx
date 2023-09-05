@@ -26,7 +26,7 @@ export default function ImportCustomTokens(): ReactElement {
   ) => {
     setLoading(true)
     try {
-      if (networkId !== GEN_X_NETWORK_ID) throw new Error()
+      if (networkId !== GEN_X_NETWORK_ID) throw new Error('Incorrect network')
 
       await addTokenToWallet(
         web3Provider,

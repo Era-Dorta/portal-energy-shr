@@ -367,7 +367,7 @@ export async function getPublisherFromVP(vp: any): Promise<string> {
   let serviceOfferingSubject: ICredentialSubject | undefined
   try {
     const parsedVP = typeof vp === 'string' ? JSON.parse(vp) : vp
-    if ('verifiableCredential' in parsedVP) {
+    if (typeof parsedVP === 'object' && 'verifiableCredential' in parsedVP) {
       const vp = parsedVP as IVerifiablePresentation
       const verifiableCredentials: IVerifiableCredential[] = Array.isArray(
         vp?.verifiableCredential
@@ -462,9 +462,9 @@ export async function transformPublishFormToDdo(
       : null
 
   // Transform from files[0].url to string[] assuming only 1 file
-  if (files.length && files[0].url && !gaiaXInformation.serviceSD.url) {
+  /* if (files.length && files[0].url && !gaiaXInformation.serviceSD.url) {
     gaiaXInformation.serviceSD.url = files[0].url
-  }
+  } */
   const filesTransformed = files?.length &&
     files[0].valid && [sanitizeUrl(files[0].url)]
   const linksTransformed = links?.length &&
