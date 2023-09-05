@@ -40,7 +40,7 @@
   margin: var(--spacer) 0;
   padding: var(--spacer) 0;
   background-color: var(--color-primary);
-  color: var(--font-color-text-inverted);
+  color: white;
 }
 
 .heroHeader {
@@ -147,6 +147,7 @@
   }
   .card {
     max-width: none;
+
     background-color: var(--brand-white);
     box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.06);
   }

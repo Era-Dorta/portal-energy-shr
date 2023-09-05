@@ -25,7 +25,7 @@
     }
   ],
   "hero": {
-    "header": "This demo environment is aiming to bring the Gaia-X concepts and federation services to live in the context of the mobility sector. In the upcoming months this environment can be used to demonstrate, explain and test powerful Gaia-X concepts like:",
+    "header": "This platform is aiming to bring the Gaia-X concepts and federation services to live in the context of the mobility sector. In the upcoming months this environment can be used to demonstrate, explain and test powerful Gaia-X concepts like:",
     "points": [
       "- Self-Descriptions",
       "- Labels",
@@ -36,8 +36,8 @@
     ]
   },
   "footer": {
-    "text": "In this demo environment consider the “Future Mobility Alliance” as a Gaia-X compliant “Federation” that operates the “EnergySHR Marketplace” on behalf of the participating “Provider” and “Consumer” organizations. The provider and consumer organizations could be any public or private organization. As long as they comply with the rules as set by the Future Mobility Alliance and the high-level Gaia-X compliance rules.",
-    "disclaimer": "N.B. Provider and consumer participants of the Future Mobility Alliance can also be participating in other data sharing ecosystems. For instance a “Healtcare Data Marketplace” or a “Energy Data Marketplace”. Participants don’t need to onboard again as Gaia-X member. The same base Gaia-X participant and service self-descriptions can be re-used across different Gaia-X compliant ecosystems.",
+    "text": "EnergySHR can be considered as a Gaia-X compliant federation initiated by Delft University of Technology and Erasmus University Rotterdam as federator on behalf of the participating “Provider” and “Consumer” organizations. In the pilot phase these “Provider” and “Consumer” organizations are limited to Delft University of Technology and Erasmus University Rotterdam. This means that only (selected) scientists of Delft University of Technology and Erasmus University Rotterdam can use EnergySHR in this pilot phase. In the future the provider and consumer organizations could be any public or private organization, as long as they comply with the rules as set by the federator of EnergySHR and the high-level Gaia-X compliance rules.",
+    "disclaimer": "N.B. Provider and consumer participants of EnergySHR can also be participating in other data sharing ecosystems. For instance  “Future Mobility Data Marketplace”. Participants don’t need to onboard again as Gaia-X member. The same base Gaia-X participant and service self-descriptions can be re-used across different Gaia-X compliant ecosystems.",
     "cards": [
       {
         "title": "Providers",
