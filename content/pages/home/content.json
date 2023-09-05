@@ -1,10 +1,9 @@
 {
   "teaser": {
-    "caption": "EnergySHR",
     "body": [
       {
         "title": "Challenges in the energy transition",
-        "text": "The energy system is transforming from a centralized, fossil fuel-based, automatic control-dominated system into a system with increased complexity due to decentralised produced renewable energy. The integration\nbetween the electrical grid, gases (like hydrogen) and heat systems and reduced time-limits for system control adds to this complexity."
+        "text": "The energy system is transforming from a centralized, fossil fuel-based, automatic control-dominated system into a system with increased complexity due to decentralised produced renewable energy. The integration between the electrical grid, gases (like hydrogen) and heat systems and reduced time-limits for system control adds to this complexity."
       },
       {
         "title": "Advanced computational and artificial intelligence (AI) solutions are required",
@@ -16,7 +15,7 @@
       },
       {
         "title": "A platform that is based on the Gaia-X concepts",
-        "text": "EnergySHR is based on the Gaia-X concepts. · Digital Sovereignty - Data owner stays in control\u2028\n· Preventing copies of data - Data stays at the source\n· Bridging supply and demand of data and AI algorithms\n· Sharing options for both open and restricted data\n· Labels - “Digital quality stamps” for datasets and algorithms\u2028\nGaia-X is part of the “Digital Europe” program aiming at making Europe's digital infrastructure future-proof and self-sovereign."
+        "text": "EnergySHR is based on the Gaia-X concepts:\n· Digital Sovereignty - Data owner stays in control\u2028\n· Preventing copies of data - Data stays at the source\n· Bridging supply and demand of data and AI algorithms\n· Sharing options for both open and restricted data\n· Labels - “Digital quality stamps” for datasets and algorithms\u2028\nGaia-X is part of the “Digital Europe” program aiming at making Europe's digital infrastructure future-proof and self-sovereign."
       }
     ]
   },
@@ -59,7 +58,7 @@
     "title": "Get involved",
     "text": "Contact us for more info on how to participate in the development of EnergySHR",
     "buttonLabel": "Schedule a call",
-    "link": "https://www.triall.io/contact"
+    "link": "https://www.energyshr.nl/about"
   },
   "firstTimeVisiting": {
     "title": "First time visiting",

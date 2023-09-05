@@ -1,5 +1,5 @@
 {
-  "siteTitle": "EnergySHR Marketplace",
+  "siteTitle": "EnergySHR Platform",
   "siteTagline": "Solving energy transition challenges",
   "siteUrl": "https://www.energyshr.nl",
   "siteImage": "/share.png",
@@ -30,13 +30,18 @@
     "designedBy": "",
     "partners": "Centre for Energy System Intelligence",
     "links": [
-      { "label": "About this demo", "link": "/about" },
-      { "label": "About Gaia-X", "link": "/gaia-x" },
+      {
+        "label": "About this platform",
+        "link": "/about"
+      },
+      {
+        "label": "About Gaia-X",
+        "link": "/gaia-x"
+      },
       {
         "label": "Catalogue",
         "link": "/search"
-      },
-      { "label": "First time visiting", "link": "/onboarding" }
+      }
     ]
   }
 }

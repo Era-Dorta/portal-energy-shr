@@ -69,15 +69,7 @@ export default function Footer(): ReactElement {
               <Button
                 className={styles.linkButton}
                 style="text"
-                href="https://v4.portal.minimal-gaia-x.eu/imprint"
-              >
-                Imprint
-              </Button>
-              {' — '}
-              <Button
-                className={styles.linkButton}
-                style="text"
-                href="https://www.minimal-gaia-x.eu/privacy/en"
+                href="https://www.energyshr.nl/privacy/en"
               >
                 Privacy
               </Button>
