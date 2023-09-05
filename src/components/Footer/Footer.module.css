@@ -92,7 +92,7 @@
 }
 
 .links {
-  display: flow;
+  display: grid;
 }
 
 .links > a {
