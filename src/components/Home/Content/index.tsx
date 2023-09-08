@@ -93,13 +93,16 @@ export default function HomeContent(): ReactElement {
           link={getInvolved.link}
           button={{ style: 'text', arrow: true }}
         />
-        <HighlightBox
-          title={firstTimeVisiting.title}
-          body={firstTimeVisiting.text}
-          buttonLabel={firstTimeVisiting.buttonLabel}
-          link={firstTimeVisiting.link}
-          button={{ style: 'text', arrow: true }}
-        />
+        {(process.env.NEXT_PUBLIC_FIRST_TIME_VISITING_ENABLE === undefined ||
+          process.env.NEXT_PUBLIC_FIRST_TIME_VISITING_ENABLE === 'true') && (
+          <HighlightBox
+            title={firstTimeVisiting.title}
+            body={firstTimeVisiting.text}
+            buttonLabel={firstTimeVisiting.buttonLabel}
+            link={firstTimeVisiting.link}
+            button={{ style: 'text', arrow: true }}
+          />
+        )}
       </div>
     </Container>
   )
