@@ -64,7 +64,7 @@ export function getQueryContext(chainId: number): OperationContext {
   try {
     if (!appConfig.chainIdsSupported.includes(chainId))
       throw Object.assign(
-        new Error('network not supported, query context cancelled')
+        new Error(`network ${chainId} not supported, query context cancelled`)
       )
 
     const queryContext: OperationContext = {

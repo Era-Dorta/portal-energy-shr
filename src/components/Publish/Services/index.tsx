@@ -9,6 +9,7 @@ import { FormPublishData } from '../_types'
 import Alert from '@shared/atoms/Alert'
 import { useMarketMetadata } from '@context/MarketMetadata'
 import styles from '../index.module.css'
+import { isFeatureDisabled } from '@utils/features'
 
 const accessTypeOptionsTitles = getFieldContent(
   'access',
@@ -81,11 +82,13 @@ export default function ServicesFields(): ReactElement {
           />
         </>
       )}
-      <Field
-        {...getFieldContent('providerUrl', content.services.fields)}
-        component={Input}
-        name="services[0].providerUrl"
-      />
+      {isFeatureDisabled('/ui/publish/provider-url') || (
+        <Field
+          {...getFieldContent('providerUrl', content.services.fields)}
+          component={Input}
+          name="services[0].providerUrl"
+        />
+      )}
       <Field
         {...getFieldContent('files', content.services.fields)}
         component={Input}

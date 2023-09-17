@@ -6,10 +6,11 @@ import content from '../../../../content/pages/home/content.json'
 import Container from '@components/@shared/atoms/Container'
 import Markdown from '@components/@shared/Markdown'
 import Button from '@shared/atoms/Button'
+import { isFeatureDisabled } from '@utils/features'
 
 interface HomeContentData {
   teaser: {
-    caption: string
+    caption?: string
     body: {
       title: string
       text: string
@@ -93,8 +94,7 @@ export default function HomeContent(): ReactElement {
           link={getInvolved.link}
           button={{ style: 'text', arrow: true }}
         />
-        {(process.env.NEXT_PUBLIC_FIRST_TIME_VISITING_ENABLE === undefined ||
-          process.env.NEXT_PUBLIC_FIRST_TIME_VISITING_ENABLE === 'true') && (
+        {isFeatureDisabled('/ui/web3/first-time') || (
           <HighlightBox
             title={firstTimeVisiting.title}
             body={firstTimeVisiting.text}

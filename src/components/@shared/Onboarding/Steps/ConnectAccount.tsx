@@ -18,12 +18,12 @@ export default function ConnectAccount(): ReactElement {
     buttonSuccess
   }: OnboardingStep = content
 
-  const { accountId, connect, web3Provider, web3Modal, networkId } = useWeb3()
+  const { accountId, connect, web3Provider, networkId } = useWeb3()
   const [loading, setLoading] = useState(false)
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    if (accountId && web3Modal.getUserOptions()) {
+    if (accountId) {
       setCompleted(true)
     } else {
       setCompleted(false)

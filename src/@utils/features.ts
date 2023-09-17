@@ -37,11 +37,13 @@ export function isFeatureEnabled(feature: Feature) {
 export type Feature =
   | '/ui/menu/wallet'
   | '/ui/menu/prefs'
+  | '/ui/web3/first-time'
   | '/ui/publish/wallet'
   | '/ui/publish/pii-checkbox'
   | '/ui/publish/pricing/fees'
   | '/ui/publish/pricing/paid'
   | '/ui/publish/self-description'
+  | '/ui/publish/provider-url'
   | '/ui/asset/wallet'
   | '/web3/wallet-selection'
   | '/web3/headless'

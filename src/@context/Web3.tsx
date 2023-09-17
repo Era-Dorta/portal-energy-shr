@@ -38,6 +38,7 @@ import { toast } from 'react-toastify'
 LoggerInstance.setLevel(3)
 interface Web3ProviderValue {
   isOnlyWeb3Auth: boolean
+  headlessOnly: boolean
   web3: Web3
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   web3Provider: any
@@ -92,16 +93,29 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const [balance, setBalance] = useState<UserBalance>({})
   const [isSupportedOceanNetwork, setIsSupportedOceanNetwork] = useState(true)
   const [approvedBaseTokens, setApprovedBaseTokens] = useState<TokenInfo[]>()
-  const [isOnlyWeb3Auth, setIsOnlyWeb3Auth] = useState<boolean>()
 
   const host = getHeadlessProviderRpcHost({ oidcUser })
+
+  console.log(`/web/headles enabled: ${isFeatureEnabled('/web3/headless')}`)
+  console.log(
+    `/web/wallet-selection disabled: ${isFeatureDisabled(
+      '/web3/wallet-selection'
+    )}`
+  )
+
   const headlessOnly =
     isFeatureEnabled('/web3/headless') &&
     isFeatureDisabled('/web3/wallet-selection')
+  LoggerInstance.log('[web3] Headless only mode: ', headlessOnly)
+
   if (headlessOnly && !host) {
     toast.error('Please login first.')
   }
 
+  const onlyWeb3 = !isOIDCActivated && !isSiopActivated
+  LoggerInstance.log('[web3] Is only web3 auth', onlyWeb3)
+  const hasWalletSelection = isFeatureEnabled('/web3/wallet-selection')
+  LoggerInstance.log('[web3] has wallet selection', hasWalletSelection)
   const headlessProviderOptions = isFeatureEnabled('/web3/headless')
     ? {
         'custom-sphereon': {
@@ -114,7 +128,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
               '/images/sphereon-logo.jpg',
             description:
               process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_DESCRIPTION ??
-              'Sphereon Agent'
+              'Sphereon wallet. No plugins required!'
           },
           connector: async (_: any, opts?: any) =>
             createHeadlessWeb3Provider(opts),
@@ -146,6 +160,18 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     theme: web3ModalTheme
   }
 
+  function isSphereonProvider(provider: any) {
+    const isSphereonAgent =
+      typeof provider === 'object' &&
+      'httpAgent' in provider &&
+      (provider.host ===
+        process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED ||
+        provider.host ===
+          process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_ANONYMOUS)
+    LoggerInstance.log('[web3] Is sphereon agent: ', isSphereonAgent)
+    return isSphereonAgent
+  }
+
   // -----------------------------------
   // Logout helper
   // -----------------------------------
@@ -164,9 +190,6 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // -----------------------------------
   const connect = useCallback(
     async (disconnect?: boolean) => {
-      const onlyWeb3 = !isOIDCActivated && !isSiopActivated
-      setIsOnlyWeb3Auth(onlyWeb3)
-      LoggerInstance.log('[web3] Is only web3 aauth', onlyWeb3)
       if (disconnect && web3Modal && web3) {
         try {
           logout()
@@ -181,18 +204,35 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
         LoggerInstance.log('[web3] Connecting Web3...')
 
         let provider: Web3CoreProvider | undefined = web3Provider
-        if (isFeatureEnabled('/web3/wallet-selection')) {
+        if (hasWalletSelection) {
           provider = await web3Modal?.connect()
-        } else if (isFeatureEnabled('/web3/headless')) {
+        } else if (headlessOnly) {
           LoggerInstance.log('[web3] Connecting Web3 headless provider ...')
           provider = await web3Modal.connectTo('custom-sphereon')
           LoggerInstance.log('[web3] Web3 headless provider connected')
         }
-        if (!provider && isFeatureDisabled('/web3/wallet-selection')) {
+        if (!provider && !hasWalletSelection) {
           toast.error(
             'Could not get the provider and wallet selection is not enabled. Contact support please'
           )
           return
+        } else if (
+          provider &&
+          isSphereonProvider(provider) &&
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          !provider.isConnected
+        ) {
+          try {
+            await new Web3(provider).eth.requestAccounts()
+          } catch (error) {
+            LoggerInstance.log(`ERROR:`, error)
+            toast.error(
+              'Could not connect to the web3 provider. Please connect with another wallet'
+            )
+            await logout()
+            return
+          }
         }
         setWeb3Provider(provider)
 
@@ -212,7 +252,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
         setChainId(chainId)
         LoggerInstance.log('[web3] chain id ', chainId)
       } catch (error) {
-        LoggerInstance.error('[web3] Error: ', error.message)
+        LoggerInstance.error('[web3] Error:::: ', error.message, error)
       } finally {
         setWeb3Loading(false)
       }
@@ -264,7 +304,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       }
       setBalance(newBalance)
     } catch (error) {
-      LoggerInstance.error('[web3] Error: ', error.message)
+      LoggerInstance.error('[web3] Error: ', error.message, error)
     }
   }, [accountId, approvedBaseTokens, networkId, web3, networkData])
 
@@ -295,8 +335,11 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // -----------------------------------
   useEffect(() => {
     if (!web3Modal?.cachedProvider) return
+    // else if (isSphereonProvider(web3Provider)) return
 
     async function connectCached() {
+      if (!web3Modal?.cachedProvider) return
+      // else if (isSphereonProvider(web3Provider)) return
       LoggerInstance.log(
         '[web3] Connecting to cached provider: ',
         web3Modal.cachedProvider
@@ -359,7 +402,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // Get and set latest head block
   // -----------------------------------
   useEffect(() => {
-    if (!web3) return
+    if (!web3 || !web3Provider) return
 
     async function getBlock() {
       const block = await web3.eth.getBlockNumber()
@@ -395,6 +438,18 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   }, [networkId, appConfig.chainIdsSupported])
 
   // -----------------------------------
+  // Check user network against asset network
+  // -----------------------------------
+  useEffect(() => {
+    if (headlessOnly) {
+      LoggerInstance.log(
+        '[web3] Connecting to web3 provider, given we are in headless only mode'
+      )
+      connect()
+    }
+  }, [headlessOnly])
+
+  // -----------------------------------
   // Handle change events
   // -----------------------------------
 
@@ -419,7 +474,14 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
 
   useEffect(() => {
     // todo Probably wise to only disable in case the wallet selection is anything but the headless provider
-    if (!web3Provider || !web3 || isFeatureEnabled('/web3/headless')) return
+
+    if (
+      !web3Provider ||
+      !web3 ||
+      headlessOnly ||
+      isSphereonProvider(web3Provider)
+    )
+      return
     web3Provider.on('chainChanged', handleChainChanged)
     web3Provider.on('networkChanged', handleNetworkChanged)
     web3Provider.on('accountsChanged', handleAccountsChanged)
@@ -439,7 +501,8 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
         web3Provider,
         web3Modal,
         web3ProviderInfo,
-        isOnlyWeb3Auth,
+        isOnlyWeb3Auth: onlyWeb3,
+        headlessOnly,
         accountId,
         balance,
         networkId,

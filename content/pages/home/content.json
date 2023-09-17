@@ -57,8 +57,8 @@
   "getInvolved": {
     "title": "Get involved",
     "text": "Contact us for more info on how to participate in the development of EnergySHR",
-    "buttonLabel": "Schedule a call",
-    "link": "https://www.energyshr.nl/about"
+    "buttonLabel": "Contact us",
+    "link": "/about"
   },
   "firstTimeVisiting": {
     "title": "First time visiting",
