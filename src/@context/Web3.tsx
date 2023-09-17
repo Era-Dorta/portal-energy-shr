@@ -447,7 +447,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       )
       connect()
     }
-  }, [headlessOnly])
+  }, [headlessOnly, connect])
 
   // -----------------------------------
   // Handle change events
