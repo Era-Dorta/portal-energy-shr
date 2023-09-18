@@ -443,11 +443,25 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   useEffect(() => {
     if (headlessOnly) {
       LoggerInstance.log(
+        `[web3] Will connect to web3 provider since we are in headless only mode`
+      )
+      if (oidcUser?.email) {
+        try {
+          // This is a web3 logout. Used to change from anon to priviledged web3 account
+          logout()
+        } catch (e) {
+          LoggerInstance.log(
+            '[web3] Error calling logout on oidc user change: ',
+            e
+          )
+        }
+      }
+      LoggerInstance.log(
         '[web3] Connecting to web3 provider, given we are in headless only mode'
       )
-      connect()
+      connect(true)
     }
-  }, [headlessOnly, connect])
+  }, [headlessOnly, connect, oidcUser])
 
   // -----------------------------------
   // Handle change events
