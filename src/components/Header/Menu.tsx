@@ -51,10 +51,11 @@ export function MenuLink({ name, link, className }: MenuItem) {
 }
 
 export default function Menu(): ReactElement {
-  const { appConfig, siteContent } = useMarketMetadata()
   const authenticationStatus = useSelector(
     (state: RootState) => state.authentication.authenticationStatus
   )
+
+  const { appConfig, siteContent } = useMarketMetadata()
 
   return (
     <Container>

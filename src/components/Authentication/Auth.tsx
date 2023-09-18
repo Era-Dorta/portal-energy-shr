@@ -7,10 +7,12 @@ import { useSIOP } from '@components/Authentication/SIOP/siopAuth'
 import LoginModal from '@components/Authentication/index'
 import Button from '@shared/atoms/Button'
 import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
+import { useWeb3 } from '@context/Web3'
 
 export default function Auth({ className }: { className?: string }) {
-  const { logout: oidcLogout } = useOidcAuth()
-  const { logout: siopLogout } = useSIOP()
+  const web3 = useWeb3()
+  const { logout: oidcLogout } = useOidcAuth(web3)
+  const { logout: siopLogout } = useSIOP(web3)
   const dispatch = useDispatch()
   const authenticationState = useSelector(
     (state: RootState) => state.authentication.authenticationStatus

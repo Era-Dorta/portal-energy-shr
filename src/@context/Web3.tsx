@@ -38,7 +38,7 @@ import { RootState } from '../store'
 import { AuthenticationStatus } from '@components/Authentication/authentication.types'
 
 LoggerInstance.setLevel(3)
-interface Web3ProviderValue {
+export interface Web3ProviderValue {
   isOnlyWeb3Auth: boolean
   headlessOnly: boolean
   web3: Web3

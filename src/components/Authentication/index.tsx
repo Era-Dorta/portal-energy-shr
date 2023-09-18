@@ -9,6 +9,7 @@ import {
   isSiopActivated
 } from '../../../app.config'
 import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
+import { useWeb3 } from '@context/Web3'
 
 interface LoginModalProps {
   onCloseClicked?: () => void
@@ -17,6 +18,7 @@ interface LoginModalProps {
 
 const LoginModal = ({ onCloseClicked, showModal }: LoginModalProps) => {
   const [payload, setPayload] = useState<AuthorizationResponsePayload>()
+  const web3 = useWeb3()
   const showOIDC = isOIDCActivated
   const showSIOP = isSiopActivated
   const initialTab = showOIDC ? 'oidc' : 'siop'
@@ -25,7 +27,7 @@ const LoginModal = ({ onCloseClicked, showModal }: LoginModalProps) => {
   let isOidcAuthenticated: boolean
   if (isOIDCActivated) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { isAuthenticated: oidcAuthenticated } = useOidcAuth()
+    const { isAuthenticated: oidcAuthenticated } = useOidcAuth(web3)
     isOidcAuthenticated = oidcAuthenticated
   }
   const handleTabChange = (tab) => {
