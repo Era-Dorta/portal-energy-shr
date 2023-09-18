@@ -112,16 +112,16 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const headlessOnly =
     isFeatureEnabled('/web3/headless') &&
     isFeatureDisabled('/web3/wallet-selection')
-  LoggerInstance.log('[web3] Headless only mode: ', headlessOnly)
+  // LoggerInstance.log('[web3] Headless only mode: ', headlessOnly)
 
   if (headlessOnly && !host) {
     toast.error('Please login first.')
   }
 
   const onlyWeb3 = !isOIDCActivated && !isSiopActivated
-  LoggerInstance.log('[web3] Is only web3 auth', onlyWeb3)
+  // LoggerInstance.log('[web3] Is only web3 auth', onlyWeb3)
   const hasWalletSelection = isFeatureEnabled('/web3/wallet-selection')
-  LoggerInstance.log('[web3] has wallet selection', hasWalletSelection)
+  // LoggerInstance.log('[web3] has wallet selection', hasWalletSelection)
   const headlessProviderOptions = isFeatureEnabled('/web3/headless')
     ? {
         'custom-sphereon': {
