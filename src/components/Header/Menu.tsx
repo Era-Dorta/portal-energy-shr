@@ -71,7 +71,7 @@ export default function Menu(): ReactElement {
         <ul className={styles.navigation}>
           {siteContent?.menu.map((item: MenuItem) => {
             if (
-              item.name === 'Publish' &&
+              (item.name === 'Publish' || item.name === 'Profile') &&
               authenticationStatus === AuthenticationStatus.NOT_AUTHENTICATED
             ) {
               return null
