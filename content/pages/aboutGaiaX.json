@@ -25,7 +25,7 @@
     }
   ],
   "hero": {
-    "header": "This platform is aiming to bring the Gaia-X concepts and federation services to live in the context of the mobility sector. In the upcoming months this environment can be used to demonstrate, explain and test powerful Gaia-X concepts like:",
+    "header": "This platform is aiming to bring the Gaia-X concepts and federation services to live in the context of the energy sector. In the upcoming months this environment can be used to demonstrate, explain and test powerful Gaia-X concepts like:",
     "points": [
       "- Self-Descriptions",
       "- Labels",
@@ -41,7 +41,7 @@
     "cards": [
       {
         "title": "Providers",
-        "body": "Publishing open, restricted or commercial data sets and algorithms related to mobility.",
+        "body": "Publishing open, restricted or commercial data sets and algorithms related to energy.",
         "icon": "gear"
       },
       {
@@ -51,7 +51,7 @@
       },
       {
         "title": "Consumers",
-        "body": "Consumers of open, restricted or commercial data sets and algorithms related to mobility.",
+        "body": "Consumers of open, restricted or commercial data sets and algorithms related to energy.",
         "icon": "cart"
       }
     ]

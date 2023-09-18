@@ -15,7 +15,7 @@
     },
     {
       "name": "Publish",
-      "link": "/publish"
+      "link": "/publish/1"
     },
     {
       "name": "Profile",
@@ -29,6 +29,9 @@
   "footer": {
     "designedBy": "",
     "partners": "Centre for Energy System Intelligence",
-    "links": []
+    "links": [
+      { "label": "About this platform", "link": "/about" },
+      { "label": "About Gaia-X", "link": "/gaia-x" }
+    ]
   }
 }

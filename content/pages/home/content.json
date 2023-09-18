@@ -64,6 +64,6 @@
     "title": "First time visiting",
     "text": "This guide will ensure you have the correct setup for interacting with all CIX demo functionalities.",
     "buttonLabel": "Quick start guide",
-    "link": "onboarding"
+    "link": "/quickstart"
   }
 }
