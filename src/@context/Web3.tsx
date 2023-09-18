@@ -32,8 +32,10 @@ import {
   createHeadlessWeb3Provider,
   getHeadlessProviderRpcHost
 } from '../Provider'
-import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
 import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+import { AuthenticationStatus } from '@components/Authentication/authentication.types'
 
 LoggerInstance.setLevel(3)
 interface Web3ProviderValue {
@@ -72,9 +74,13 @@ const refreshInterval = 20000 // 20 sec.
 const Web3Context = createContext({} as Web3ProviderValue)
 
 function Web3Provider({ children }: { children: ReactNode }): ReactElement {
-  const { oidcUser } = useOidcAuth()
+  // const { oidcUser } = useOidcAuth()
   const { networksList } = useNetworkMetadata()
   const { appConfig } = useMarketMetadata()
+
+  const authenticationState = useSelector(
+    (state: RootState) => state.authentication
+  )
 
   const [web3, setWeb3] = useState<Web3>()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,7 +100,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const [isSupportedOceanNetwork, setIsSupportedOceanNetwork] = useState(true)
   const [approvedBaseTokens, setApprovedBaseTokens] = useState<TokenInfo[]>()
 
-  const host = getHeadlessProviderRpcHost({ oidcUser })
+  const host = getHeadlessProviderRpcHost({ authState: authenticationState })
 
   console.log(`/web/headles enabled: ${isFeatureEnabled('/web3/headless')}`)
   console.log(
@@ -445,7 +451,10 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       LoggerInstance.log(
         `[web3] Will connect to web3 provider since we are in headless only mode`
       )
-      if (oidcUser?.email) {
+      if (
+        authenticationState.authenticationStatus !==
+        AuthenticationStatus.NOT_AUTHENTICATED
+      ) {
         try {
           // This is a web3 logout. Used to change from anon to priviledged web3 account
           logout()
@@ -461,7 +470,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       )
       connect(true)
     }
-  }, [headlessOnly, connect, oidcUser])
+  }, [headlessOnly, connect])
 
   // -----------------------------------
   // Handle change events

@@ -7,6 +7,7 @@ import { RootState } from '../../../store'
 import { setAuthState } from '../../../store/actions/authentication.actions'
 import { useRouter } from 'next/router'
 import { isOIDCActivated } from 'app.config'
+import { useWeb3 } from '@context/Web3'
 
 export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
   const router = useRouter()
@@ -40,6 +41,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     console.log(`Querying user ${oidcUserId}, ${oidcUser} from backend....`)
+    const web3 = useWeb3()
 
     fetch('/authentication/user', {
       method: 'GET',
@@ -60,6 +62,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
             user: null,
             status: AuthenticationStatus.NOT_AUTHENTICATED
           })
+          web3.connect(true)
           dispatch(setAuthState(AuthenticationStatus.NOT_AUTHENTICATED))
         } else {
           result.json().then((oidc: OidcUserInfo) => {
@@ -77,6 +80,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
             console.log(`User found. Dispatching authenticated state`)
             if (oidc.name || oidc.email) {
               setOidcUser({ user: oidc, status: AuthenticationStatus.OIDC })
+              web3.connect(true)
               dispatch(setAuthState(AuthenticationStatus.OIDC))
             } else {
               console.error(
@@ -92,6 +96,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
           user: null,
           status: AuthenticationStatus.NOT_AUTHENTICATED
         })
+        web3.connect(true)
         dispatch(setAuthState(AuthenticationStatus.NOT_AUTHENTICATED))
       })
 
