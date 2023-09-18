@@ -65,10 +65,19 @@ export const getHeadlessProviderRpcHost = (opts: {
   let host = process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_ANONYMOUS
 
   if (
-    opts.authState?.authenticationStatus !==
+    opts.authState.authenticationStatus !==
     AuthenticationStatus.NOT_AUTHENTICATED
   ) {
+    LoggerInstance.log(
+      `Updating web3 headless provider since we are authenticated`,
+      process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+    )
     host = process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+  } else {
+    LoggerInstance.log(
+      `Using anonymous web3 headless provider since we are not authenticated`,
+      process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+    )
   }
   return host
 }

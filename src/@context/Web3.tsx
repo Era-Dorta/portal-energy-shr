@@ -449,7 +449,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   useEffect(() => {
     if (headlessOnly) {
       LoggerInstance.log(
-        `[web3] Will connect to web3 provider since we are in headless only mode`
+        `[web3] Will connect to web3 provider since we are in headless only mode. Auth status ${authenticationState.authenticationStatus}`
       )
       if (
         authenticationState.authenticationStatus !==
