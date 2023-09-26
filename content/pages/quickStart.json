@@ -2,7 +2,7 @@
   "title": "Quickstart",
   "topSection": [
     {
-      "text": "Lorem ipsum",
+      "text": "In the current phase of EnergySHR development, everyone visiting the platform is able – without login - to download datasets and algorithms that are published as ‘downloadable’. You also can execute compute jobs – without login - in case the dataset and algorithm is private. You get the output/result from the selected algorithm that runs on the private dataset.\n\nHowever, in this starting phase, only a selected user group from Delft University of Technology and Erasmus University is allowed to publish datasets and algorithms. In order to publish, you need to login and become member of the EnergySHR collaboration.\n\nThe ambition is to gradually improve the platform and expand access to publishing, so that the platform is accessible to researchers across Europe.",
       "interactivity2": {
         "image": "/images/about/about.svg",
         "link": "https://youtu.be/DrG-EBBFniw"
