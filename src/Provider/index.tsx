@@ -60,21 +60,18 @@ export function createHeadlessWeb3Provider(opts: HeadlessProviderOpts) {
  * The security of the headless wallet is also not reliant on this URL, the headless wallet is protected by auth typically
  */
 export const getHeadlessProviderRpcHost = (opts: {
-  authState: AuthenticationState
+  authStatus: AuthenticationStatus
 }) => {
   let host = process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_ANONYMOUS
 
-  if (
-    opts.authState.authenticationStatus !==
-    AuthenticationStatus.NOT_AUTHENTICATED
-  ) {
-    LoggerInstance.log(
+  if (opts.authStatus !== AuthenticationStatus.NOT_AUTHENTICATED) {
+    console.log(
       `Updating web3 headless provider since we are authenticated`,
       process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
     )
     host = process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
   } else {
-    LoggerInstance.log(
+    console.log(
       `Using anonymous web3 headless provider since we are not authenticated`,
       process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
     )
