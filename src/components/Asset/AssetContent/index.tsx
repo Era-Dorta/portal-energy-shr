@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import Markdown from '@shared/Markdown'
 import MetaFull from './MetaFull'
 import MetaSecondary from './MetaSecondary'
@@ -21,6 +21,7 @@ import {
   getServiceSD
 } from '@components/Publish/_utils'
 import SDVisualizer from '@components/@shared/SDVisualizer'
+import { useWeb3 } from '@context/Web3'
 
 export default function AssetContent({
   asset
@@ -38,6 +39,12 @@ export default function AssetContent({
   const [receipts, setReceipts] = useState([])
   const [nftPublisher, setNftPublisher] = useState<string>()
   const [serviceSD, setServiceSD] = useState<string>()
+  const { isWeb2Authenticated, isWeb3HeadlessOnly } = useWeb3()
+
+  console.log(
+    `Is web3 headless only ${isWeb3HeadlessOnly}, is web2 authenticated ${isWeb2Authenticated}`
+  )
+  const isAuthenticated = !isWeb3HeadlessOnly || isWeb2Authenticated
   const complianceTypes =
     asset.metadata?.additionalInformation?.compliance || []
 
@@ -114,7 +121,7 @@ export default function AssetContent({
 
         <div className={styles.actions}>
           <AssetActions asset={asset} />
-          {isOwner && isAssetNetwork && (
+          {isOwner && isAssetNetwork && isAuthenticated && (
             <div className={styles.ownerActions}>
               <Button style="text" size="small" to={`/asset/${asset?.id}/edit`}>
                 Edit Asset

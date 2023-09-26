@@ -45,5 +45,6 @@ export type Feature =
   | '/ui/publish/self-description'
   | '/ui/publish/provider-url'
   | '/ui/asset/wallet'
+  | '/ui/asset/edit-auth-only'
   | '/web3/wallet-selection'
   | '/web3/headless'

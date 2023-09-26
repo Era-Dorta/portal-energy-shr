@@ -40,7 +40,8 @@ import { AuthenticationStatus } from '@components/Authentication/authentication.
 LoggerInstance.setLevel(3)
 export interface Web3ProviderValue {
   isOnlyWeb3Auth: boolean
-  headlessOnly: boolean
+  isWeb3HeadlessOnly: boolean
+  isWeb2Authenticated: boolean
   web3: Web3
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   web3Provider: any
@@ -73,6 +74,14 @@ const refreshInterval = 20000 // 20 sec.
 
 const Web3Context = createContext({} as Web3ProviderValue)
 
+export const isWeb3HeadlessOnly =
+  isFeatureEnabled('/web3/headless') &&
+  isFeatureDisabled('/web3/wallet-selection')
+
+export const isOnlyWeb3Auth = !isOIDCActivated && !isSiopActivated
+// LoggerInstance.log('[web3] Is only web3 auth', onlyWeb3)
+export const hasWalletSelection = isFeatureEnabled('/web3/wallet-selection')
+
 function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   // const { oidcUser } = useOidcAuth()
   const { networksList } = useNetworkMetadata()
@@ -99,9 +108,13 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
   const [balance, setBalance] = useState<UserBalance>({})
   const [isSupportedOceanNetwork, setIsSupportedOceanNetwork] = useState(true)
   const [approvedBaseTokens, setApprovedBaseTokens] = useState<TokenInfo[]>()
+  const [isWeb2Authenticated, setIsWeb2Authenticated] = useState(false)
 
   const host = getHeadlessProviderRpcHost({ authState: authenticationState })
 
+  if (isWeb3HeadlessOnly && !host) {
+    toast.error('Please login first.')
+  }
   console.log(`/web/headles enabled: ${isFeatureEnabled('/web3/headless')}`)
   console.log(
     `/web/wallet-selection disabled: ${isFeatureDisabled(
@@ -109,18 +122,6 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     )}`
   )
 
-  const headlessOnly =
-    isFeatureEnabled('/web3/headless') &&
-    isFeatureDisabled('/web3/wallet-selection')
-  // LoggerInstance.log('[web3] Headless only mode: ', headlessOnly)
-
-  if (headlessOnly && !host) {
-    toast.error('Please login first.')
-  }
-
-  const onlyWeb3 = !isOIDCActivated && !isSiopActivated
-  // LoggerInstance.log('[web3] Is only web3 auth', onlyWeb3)
-  const hasWalletSelection = isFeatureEnabled('/web3/wallet-selection')
   // LoggerInstance.log('[web3] has wallet selection', hasWalletSelection)
   const headlessProviderOptions = isFeatureEnabled('/web3/headless')
     ? {
@@ -212,7 +213,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
         let provider: Web3CoreProvider | undefined = web3Provider
         if (hasWalletSelection) {
           provider = await web3Modal?.connect()
-        } else if (headlessOnly) {
+        } else if (isWeb3HeadlessOnly) {
           LoggerInstance.log('[web3] Connecting Web3 headless provider ...')
           provider = await web3Modal.connectTo('custom-sphereon')
           LoggerInstance.log('[web3] Web3 headless provider connected')
@@ -443,11 +444,23 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     }
   }, [networkId, appConfig.chainIdsSupported])
 
+  useEffect(() => {
+    const isAuthenticated =
+      authenticationState.authenticationStatus !==
+      AuthenticationStatus.NOT_AUTHENTICATED
+    console.log(
+      `#### IS AUTHENTICATED: ${isAuthenticated}. WAS AUTH: ${isWeb2Authenticated}`
+    )
+    if (isAuthenticated !== isWeb2Authenticated) {
+      setIsWeb2Authenticated(isAuthenticated)
+    }
+  }, [])
+
   // -----------------------------------
   // Check user network against asset network
   // -----------------------------------
   useEffect(() => {
-    if (headlessOnly) {
+    if (isWeb3HeadlessOnly) {
       LoggerInstance.log(
         `[web3] Will connect to web3 provider since we are in headless only mode. Auth status ${authenticationState.authenticationStatus}`
       )
@@ -470,7 +483,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
       )
       connect(true)
     }
-  }, [headlessOnly, connect])
+  }, [isWeb3HeadlessOnly, connect])
 
   // -----------------------------------
   // Handle change events
@@ -501,7 +514,7 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     if (
       !web3Provider ||
       !web3 ||
-      headlessOnly ||
+      isWeb3HeadlessOnly ||
       isSphereonProvider(web3Provider)
     )
       return
@@ -524,8 +537,9 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
         web3Provider,
         web3Modal,
         web3ProviderInfo,
-        isOnlyWeb3Auth: onlyWeb3,
-        headlessOnly,
+        isOnlyWeb3Auth,
+        isWeb3HeadlessOnly,
+        isWeb2Authenticated,
         accountId,
         balance,
         networkId,

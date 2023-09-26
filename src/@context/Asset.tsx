@@ -55,7 +55,7 @@ function AssetProvider({
 }): ReactElement {
   const { appConfig } = useMarketMetadata()
 
-  const { chainId, accountId, headlessOnly, connect } = useWeb3()
+  const { chainId, accountId, isWeb3HeadlessOnly, connect } = useWeb3()
   const { isDDOWhitelisted } = useAddressConfig()
   const [isInPurgatory, setIsInPurgatory] = useState(false)
   const [purgatoryData, setPurgatoryData] = useState<Purgatory>()
