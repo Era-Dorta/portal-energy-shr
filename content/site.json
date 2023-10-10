@@ -31,7 +31,8 @@
     "partners": "Centre for Energy System Intelligence",
     "links": [
       { "label": "About this platform", "link": "/about" },
-      { "label": "About Gaia-X", "link": "/gaia-x" }
+      { "label": "About Gaia-X", "link": "/gaia-x" },
+      { "label": "Quickstart", "link": "/quickstart" }
     ]
   }
 }

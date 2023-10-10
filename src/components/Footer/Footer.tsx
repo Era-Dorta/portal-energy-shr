@@ -45,16 +45,20 @@ export default function Footer(): ReactElement {
             </div>
           </div>
           <div className={styles.links}>
-            {footer.links.map((e) => (
-              <Button
-                key={e.label}
-                style="text"
-                className={styles.link}
-                to={e.link}
-              >
-                {e.label}
-              </Button>
-            ))}
+            <ul>
+              {footer.links.map((e) => (
+                <li>
+                  <Button
+                    key={e.label}
+                    style="text"
+                    className={styles.link}
+                    to={e.link}
+                  >
+                    {e.label}
+                  </Button>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className={styles.copyrightContainer}>
             <div className={styles.copyright}>
