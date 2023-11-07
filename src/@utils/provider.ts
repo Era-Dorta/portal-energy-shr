@@ -166,8 +166,7 @@ export async function checkValidProvider(
   providerUrl: string
 ): Promise<boolean> {
   try {
-    const response = await ProviderInstance.isValidProvider(providerUrl)
-    return response
+    return await ProviderInstance.isValidProvider(providerUrl)
   } catch (error) {
     LoggerInstance.error(error.message)
   }
