@@ -362,7 +362,6 @@ function Web3Provider({ children }: { children: ReactNode }): ReactElement {
     if (!web3) return
 
     async function getBlock() {
-      console.log('web3.eth: ', web3.eth)
       const block = await web3.eth.getBlockNumber()
       setBlock(block)
       LoggerInstance.log('[web3] Head block: ', block)
