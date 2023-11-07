@@ -38,13 +38,13 @@ const Account = React.forwardRef((props, ref: any) => {
     </button>
   ) : (
     <button
-      className={`${styles.button} ${styles.initial}`}
+      className={`${styles.connectButton} ${styles.button} ${styles.initial}`}
       onClick={(e) => handleActivation(e)}
       // Need the `ref` here although we do not want
       // the Tippy to show in this state.
       ref={ref}
     >
-      Connect <span>Wallet</span>
+      Connect Wallet
     </button>
   )
 })

@@ -1,8 +1,10 @@
 import Web3HttpProvider, { HttpProviderOptions } from 'web3-providers-http'
 import { JsonRpcPayload, JsonRpcResponse } from 'web3-core-helpers'
 import { LoggerInstance } from '@oceanprotocol/lib'
-import { useOidcAuth } from '@components/Authentication/OIDC/oidcAuth'
-import { OidcUser, OidcUserInfo } from '@components/Authentication/OIDC/types'
+import {
+  AuthenticationState,
+  AuthenticationStatus
+} from '@components/Authentication/authentication.types'
 
 export interface HeadlessProviderOpts extends HttpProviderOptions {
   host: string
@@ -58,18 +60,21 @@ export function createHeadlessWeb3Provider(opts: HeadlessProviderOpts) {
  * The security of the headless wallet is also not reliant on this URL, the headless wallet is protected by auth typically
  */
 export const getHeadlessProviderRpcHost = (opts: {
-  oidcUser?: OidcUser<OidcUserInfo>
+  authStatus: AuthenticationStatus
 }) => {
-  const { oidcUser } = opts
   let host = process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_ANONYMOUS
 
-  if (oidcUser) {
-    host =
-      process.env[
-        `NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_${
-          oidcUser?.user?.email?.split('@')[1]
-        }`
-      ] ?? process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+  if (opts.authStatus !== AuthenticationStatus.NOT_AUTHENTICATED) {
+    console.log(
+      `Updating web3 headless provider since we are authenticated`,
+      process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+    )
+    host = process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+  } else {
+    console.log(
+      `Using anonymous web3 headless provider since we are not authenticated`,
+      process.env.NEXT_PUBLIC_WEB3_HEADLESS_PROVIDER_HOST_AUTHENTICATED
+    )
   }
   return host
 }

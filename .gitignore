@@ -1,5 +1,7 @@
 node_modules
 out
+*.log
+*.log.swp
 .DS_Store
 .idea
 .env

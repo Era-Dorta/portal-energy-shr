@@ -12,5 +12,6 @@ declare namespace NodeJS {
       | undefined
     readonly NEXT_PUBLIC_COMPLIANCE_TYPE_GAIA_X_CAPTION: string | undefined
     readonly NEXT_PUBLIC_COMPLIANCE_TYPE_FMDM_CAPTION: string | undefined
+    readonly NEXT_PUBLIC_FEATURES_ENABLED: string | undefined
   }
 }

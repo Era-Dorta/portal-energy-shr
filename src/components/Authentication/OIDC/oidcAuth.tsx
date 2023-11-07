@@ -7,8 +7,11 @@ import { RootState } from '../../../store'
 import { setAuthState } from '../../../store/actions/authentication.actions'
 import { useRouter } from 'next/router'
 import { isOIDCActivated } from 'app.config'
+import { Web3ProviderValue } from '@context/Web3'
 
-export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
+export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>(
+  web3: Web3ProviderValue
+) => {
   const router = useRouter()
 
   const logout = () => {
@@ -55,6 +58,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
             console.log(`DOING NOTHING. State didn't change`)
             return
           }
+          web3.connect(true)
           console.log('No User present or an error occurred.')
           setOidcUser({
             user: null,
@@ -78,6 +82,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
             if (oidc.name || oidc.email) {
               setOidcUser({ user: oidc, status: AuthenticationStatus.OIDC })
               dispatch(setAuthState(AuthenticationStatus.OIDC))
+              web3.connect(true)
             } else {
               console.error(
                 'User result was successful, but we did not get a user with e-mail address or a name. So not logging in '
@@ -93,6 +98,7 @@ export const useOidcAuth = <T extends OidcUserInfo = OidcUserInfo>() => {
           status: AuthenticationStatus.NOT_AUTHENTICATED
         })
         dispatch(setAuthState(AuthenticationStatus.NOT_AUTHENTICATED))
+        web3.connect(true)
       })
 
     let isMounted = true

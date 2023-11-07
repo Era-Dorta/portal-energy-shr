@@ -80,6 +80,9 @@ module.exports = {
   oidcBackendUrl:
     process.env.NEXT_PUBLIC_OIDC_BACKEND_URL ?? 'http://localhost:3000',
 
+  web3RpcBasePath: process.env.WEB3_RPC_BASE_PATH ?? '/web3/rpc',
+  web3RpcUrl: process.env.WEB3_RPC_URL ?? 'http://127.0.0.1:2999',
+
   // Authentication part 2: SIOP
   isSiopActivated: process.env.NEXT_PUBLIC_AUTH_SIOP_ACTIVATED === 'true',
   // Base URL of the SSI agent capable of OpenID for Verifiable Presentations

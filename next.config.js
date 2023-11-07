@@ -1,4 +1,4 @@
-const { oidcBackendUrl } = require('./app.config')
+const { oidcBackendUrl, web3RpcUrl, web3RpcBasePath } = require('./app.config')
 module.exports = (phase, { defaultConfig }) => {
   /**
    * @type {import('next').NextConfig}
@@ -73,8 +73,10 @@ module.exports = (phase, { defaultConfig }) => {
           destination: `${oidcBackendUrl}/authentication/:slug*`
         },
         {
-          source: '/web3/rpc',
-          destination: 'http://127.0.0.1:2999/web3/rpc'
+          source: `${web3RpcBasePath ?? '/web3/rpc'}/:slug*`,
+          destination: `${web3RpcUrl ?? 'http://127.0.0.1:2999'}${
+            web3RpcBasePath ?? '/web3/rpc'
+          }/:slug*`
         }
       ]
     }

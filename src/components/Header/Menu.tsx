@@ -51,10 +51,11 @@ export function MenuLink({ name, link, className }: MenuItem) {
 }
 
 export default function Menu(): ReactElement {
-  const { appConfig, siteContent } = useMarketMetadata()
   const authenticationStatus = useSelector(
     (state: RootState) => state.authentication.authenticationStatus
   )
+
+  const { appConfig, siteContent } = useMarketMetadata()
 
   return (
     <Container>
@@ -71,7 +72,7 @@ export default function Menu(): ReactElement {
         <ul className={styles.navigation}>
           {siteContent?.menu.map((item: MenuItem) => {
             if (
-              item.name === 'Publish' &&
+              (item.name === 'Publish' || item.name === 'Profile') &&
               authenticationStatus === AuthenticationStatus.NOT_AUTHENTICATED
             ) {
               return null

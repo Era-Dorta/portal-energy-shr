@@ -1,0 +1,47 @@
+{
+  "title": "Quickstart",
+  "topSection": [
+    {
+      "text": "In the current phase of EnergySHR development, everyone visiting the platform is able – without login - to download datasets and algorithms that are published as ‘downloadable’. You also can execute compute jobs – without login - in case the dataset and algorithm is private. You get the output/result from the selected algorithm that runs on the private dataset.\n\nHowever, in this starting phase, only a selected user group from Delft University of Technology and Erasmus University is allowed to publish datasets and algorithms. In order to publish, you need to login and become member of the EnergySHR collaboration.\n\nThe ambition is to gradually improve the platform and expand access to publishing, so that the platform is accessible to researchers across Europe.",
+      "interactivity2": {
+        "image": "/images/about/about.svg",
+        "link": "https://youtu.be/DrG-EBBFniw"
+      },
+      "cta2": {
+        "label": "Read more",
+        "link": "https://www.gxfs.eu/connection-to-gaia-x/"
+      }
+    }
+  ],
+  "hero": {
+    "header": "You can find PDF quickstart guides for publishing algorithms and dataset, as well as how to publish for Compute to Data below:",
+    "points": [
+      "- [Publish a dataset](/manuals/EnergySHR%20-%20Publishing%20a%20dataset%20assset.pdf)",
+      "- [Publish an algorithm](/manuals/EnergySHR%20-%20Publishing%20an%20algorithm.pdf)",
+      "- [Running and linking algorithms](/manuals/EnergySHR%20-%20Running%20an%20Algorithm%20on%20a%20Selected%20Dataset.pdf)",
+      "- [Frequently asked questions](/manuals/EnergySHR%20-%20Frequently%20Asked%20Questions.pdf)"
+    ]
+  },
+  "footer2": {
+    "text": "EnergySHR can be considered as a Gaia-X compliant federation initiated by Delft University of Technology and Erasmus University Rotterdam as federator on behalf of the participating “Provider” and “Consumer” organizations. In the pilot phase these “Provider” and “Consumer” organizations are limited to Delft University of Technology and Erasmus University Rotterdam. This means that only (selected) scientists of Delft University of Technology and Erasmus University Rotterdam can use EnergySHR in this pilot phase. In the future the provider and consumer organizations could be any public or private organization, as long as they comply with the rules as set by the federator of EnergySHR and the high-level Gaia-X compliance rules.",
+    "disclaimer": "N.B. Provider and consumer participants of EnergySHR can also be participating in other data sharing ecosystems. For instance  “Future Mobility Data Marketplace”. Participants don’t need to onboard again as Gaia-X member. The same base Gaia-X participant and service self-descriptions can be re-used across different Gaia-X compliant ecosystems.",
+    "cards": [
+      {
+        "title": "Providers",
+        "body": "Publishing open, restricted or commercial data sets and algorithms related to energy.",
+        "icon": "gear"
+      },
+      {
+        "title": "Federation",
+        "body": "Operating EnergySHR Marketplace",
+        "icon": "logo"
+      },
+      {
+        "title": "Consumers",
+        "body": "Consumers of open, restricted or commercial data sets and algorithms related to energy.",
+        "icon": "cart"
+      }
+    ]
+  },
+  "image": "/images/headerCarousel/1-road.jpeg"
+}
