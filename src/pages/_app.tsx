@@ -11,8 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '@oceanprotocol/typographies/css/ocean-typo.css'
 import '../stylesGlobal/styles.css'
 import Decimal from 'decimal.js'
-import store from '../store'
+import store, { persistor } from '../store'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import MarketMetadataProvider from '@context/MarketMetadata'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
@@ -20,21 +21,23 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
 
   return (
     <Provider store={store}>
-      <MarketMetadataProvider>
-        <Web3Provider>
-          <UrqlProvider>
-            <UserPreferencesProvider>
-              <ConsentProvider>
-                <SearchBarStatusProvider>
-                  <App>
-                    <Component {...pageProps} />
-                  </App>
-                </SearchBarStatusProvider>
-              </ConsentProvider>
-            </UserPreferencesProvider>
-          </UrqlProvider>
-        </Web3Provider>
-      </MarketMetadataProvider>
+      <PersistGate persistor={persistor}>
+        <MarketMetadataProvider>
+          <Web3Provider>
+            <UrqlProvider>
+              <UserPreferencesProvider>
+                <ConsentProvider>
+                  <SearchBarStatusProvider>
+                    <App>
+                      <Component {...pageProps} />
+                    </App>
+                  </SearchBarStatusProvider>
+                </ConsentProvider>
+              </UserPreferencesProvider>
+            </UrqlProvider>
+          </Web3Provider>
+        </MarketMetadataProvider>
+      </PersistGate>
     </Provider>
   )
 }
