@@ -55,11 +55,12 @@ export async function initializeProviderForCompute(
 // TODO: Why do we have these one line functions ?!?!?!
 export async function getEncryptedFiles(
   files: any,
+  chainId: number,
   providerUrl: string
 ): Promise<string> {
   try {
     // https://github.com/oceanprotocol/provider/blob/v4main/API.md#encrypt-endpoint
-    const response = await ProviderInstance.encrypt(files, providerUrl)
+    const response = await ProviderInstance.encrypt(files, chainId, providerUrl)
     return response
   } catch (error) {
     console.error('Error parsing json: ' + error.message)
@@ -165,8 +166,7 @@ export async function checkValidProvider(
   providerUrl: string
 ): Promise<boolean> {
   try {
-    const response = await ProviderInstance.isValidProvider(providerUrl)
-    return response
+    return await ProviderInstance.isValidProvider(providerUrl)
   } catch (error) {
     LoggerInstance.error(error.message)
   }
