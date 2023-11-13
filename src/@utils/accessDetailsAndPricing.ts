@@ -21,64 +21,6 @@ import {
   publisherMarketOrderFee
 } from '../../app.config'
 
-const tokensPriceQuery = gql`
-  query TokensPriceQuery($datatokenIds: [ID!], $account: String) {
-    tokens(first: 1000, where: { id_in: $datatokenIds }) {
-      id
-      symbol
-      name
-      publishMarketFeeAddress
-      publishMarketFeeToken
-      publishMarketFeeAmount
-      templateId
-      orders(
-        where: { payer: $account }
-        orderBy: createdTimestamp
-        orderDirection: desc
-      ) {
-        tx
-        serviceIndex
-        createdTimestamp
-        reuses(orderBy: createdTimestamp, orderDirection: desc) {
-          id
-          caller
-          createdTimestamp
-          tx
-          block
-        }
-      }
-      dispensers {
-        id
-        active
-        isMinter
-        maxBalance
-        token {
-          id
-          name
-          symbol
-        }
-      }
-      fixedRateExchanges {
-        id
-        exchangeId
-        price
-        publishMarketSwapFee
-        baseToken {
-          symbol
-          name
-          address
-          decimals
-        }
-        datatoken {
-          symbol
-          name
-          address
-        }
-        active
-      }
-    }
-  }
-`
 const tokenPriceQuery = gql`
   query TokenPriceQuery($datatokenId: ID!, $account: String) {
     token(id: $datatokenId) {
@@ -139,7 +81,7 @@ const tokenPriceQuery = gql`
 `
 
 function getAccessDetailsFromTokenPrice(
-  tokenPrice: TokenPrice | TokensPrice,
+  tokenPrice: TokenPrice,
   timeout?: number
 ): AccessDetails {
   const accessDetails = {} as AccessDetails
@@ -216,7 +158,7 @@ export async function getOrderPriceAndFees(
   providerFees?: ProviderFees
 ): Promise<OrderPriceAndFees> {
   const orderPriceAndFee = {
-    price: '0',
+    price: String(asset?.stats?.price?.value || '0'),
     publisherMarketOrderFee: publisherMarketOrderFee || '0',
     publisherMarketFixedSwapFee: '0',
     consumeMarketOrderFee: consumeMarketOrderFee || '0',
@@ -319,7 +261,7 @@ export async function getAccessDetailsForAssets(
         TokensPriceQuery,
         { datatokenIds: [string]; account: string }
       > = await fetchData(
-        tokensPriceQuery,
+        tokenPriceQuery,
         {
           datatokenIds: chainAssetLists[chainKey],
           account: account?.toLowerCase()

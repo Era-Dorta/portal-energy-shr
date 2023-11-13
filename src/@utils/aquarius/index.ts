@@ -106,29 +106,27 @@ export function generateBaseQuery(
           baseQueryParams.chainIds
             ? getFilterTerm('chainId', baseQueryParams.chainIds)
             : [],
-          getFilterTerm('_index', 'oceanv4'),
+          getFilterTerm('_index', 'v510'),
           ...(baseQueryParams.ignorePurgatory
             ? []
             : [getFilterTerm('purgatory.state', false)]),
-          [
-            {
-              bool: {
-                must: [
-                  ...(baseQueryParams.staticFilters || []).map((el) => {
-                    return {
-                      bool: {
-                        should: [...el]
-                      }
+          {
+            bool: {
+              must: [
+                ...(baseQueryParams.staticFilters || []).map((el) => {
+                  return {
+                    bool: {
+                      should: [...el]
                     }
-                  })
-                ],
-                must_not: [
-                  !baseQueryParams.ignoreState && getFilterTerm('nft.state', 5),
-                  getDynamicPricingMustNot()
-                ]
-              }
+                  }
+                })
+              ],
+              must_not: [
+                !baseQueryParams.ignoreState && getFilterTerm('nft.state', 5),
+                getDynamicPricingMustNot()
+              ]
             }
-          ]
+          }
         ],
         ...getWhitelistShould()
       }
