@@ -8,7 +8,10 @@ import {
 } from '@utils/aquarius'
 import queryString from 'query-string'
 import { CancelToken } from 'axios'
-import { SortTermOptions } from '../../@types/aquarius/SearchQuery'
+import {
+  SortDirectionOptions,
+  SortTermOptions
+} from '../../@types/aquarius/SearchQuery'
 
 export function updateQueryStringParameter(
   uri: string,
@@ -295,7 +298,7 @@ export async function addExistingParamsToUrl(
     // sort should be relevance when fixed in aqua
     urlLocation = `${urlLocation}sort=${encodeURIComponent(
       SortTermOptions.Created
-    )}&`
+    )}&sortOrder=${SortDirectionOptions.Descending}&`
   }
   urlLocation = urlLocation.slice(0, -1)
   return urlLocation

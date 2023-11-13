@@ -18,7 +18,7 @@ export async function transformAssetToAssetSelection(
       getServiceByName(asset, 'compute') || getServiceByName(asset, 'access')
 
     if (
-      asset?.accessDetails?.price &&
+      asset?.stats?.price?.value &&
       algoService?.serviceEndpoint === datasetProviderEndpoint
     ) {
       let selected = false
@@ -30,7 +30,7 @@ export async function transformAssetToAssetSelection(
       const algorithmAsset: AssetSelectionAsset = {
         did: asset.id,
         name: asset.metadata.name,
-        price: asset.accessDetails.price,
+        price: asset.stats.price.value,
         checked: selected,
         symbol: asset.datatokens[0].symbol
       }
