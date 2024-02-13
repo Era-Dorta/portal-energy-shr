@@ -25,6 +25,8 @@
     "storybook:build": "cross-env NODE_ENV=test build-storybook"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/language": "^6.3.1",
     "@apollo/server": "^4.7.5",
     "@as-integrations/next": "^2.0.1",
     "@coingecko/cryptoformat": "^0.5.4",
@@ -38,6 +40,8 @@
     "@sphereon/ssi-sdk.siopv2-oid4vp-rp-rest-client": "^0.11.1-next.70",
     "@sphereon/did-auth-siop": "^0.3.2-unstable.10",
     "@tippyjs/react": "^4.2.6",
+    "@uiw/react-codemirror": "^4.19.5",
+    "@uiw/codemirror-themes": "^4.19.5",
     "@urql/exchange-refocus": "^1.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "http-proxy-middleware": "^2.0.6",

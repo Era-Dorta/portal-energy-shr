@@ -216,7 +216,7 @@ export default function Download({
                   <Loader message="Calculating full price (including fees)" />
                 ) : (
                   <Price
-                    accessDetails={asset.accessDetails}
+                    price={asset.stats?.price}
                     orderPriceAndFees={orderPriceAndFees}
                     size="large"
                   />

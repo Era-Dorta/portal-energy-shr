@@ -1,15 +1,15 @@
 import { Asset, LoggerInstance } from '@oceanprotocol/lib'
 import { AssetSelectionAsset } from '@shared/FormInput/InputElement/AssetSelection'
-import axios, { AxiosResponse, CancelToken } from 'axios'
+import axios, { CancelToken, AxiosResponse } from 'axios'
 import { OrdersData_orders as OrdersData } from '../../@types/subgraph/OrdersData'
-import { allowDynamicPricing, metadataCacheUri } from '../../../app.config'
+import { metadataCacheUri, allowDynamicPricing } from '../../../app.config'
 import {
   SortDirectionOptions,
   SortTermOptions
 } from '../../@types/aquarius/SearchQuery'
 import { transformAssetToAssetSelection } from '../assetConvertor'
 import addressConfig from '../../../address.config'
-import { isValidDid } from '../ddo'
+import { isValidDid } from '@utils/ddo'
 import { Range } from '@components/Search/utils'
 
 export interface UserSales {
@@ -203,11 +203,11 @@ export async function queryMetadata(
 export async function getAsset(
   did: string,
   cancelToken: CancelToken
-): Promise<AssetExtended> {
+): Promise<Asset> {
   try {
     if (!isValidDid(did)) return
 
-    const response: AxiosResponse<AssetExtended> = await axios.get(
+    const response: AxiosResponse<Asset> = await axios.get(
       `${metadataCacheUri}/api/aquarius/assets/ddo/${did}`,
       { cancelToken }
     )
@@ -324,7 +324,8 @@ export async function getPublishedAssets(
 
   filters.push(getFilterTerm('nft.state', [0, 4, 5]))
   filters.push(getFilterTerm('nft.owner', accountId.toLowerCase()))
-  accessType && filters.push(getFilterTerm('services.type', accessType))
+  accessType !== undefined &&
+    filters.push(getFilterTerm('services.type', accessType))
   type !== undefined && filters.push(getFilterTerm('metadata.type', type))
   complianceType &&
     filters.push(

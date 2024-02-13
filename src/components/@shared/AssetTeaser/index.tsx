@@ -37,7 +37,10 @@ export default function AssetTeaser({
   const isCompliant = !!complianceTypes?.length
   const { orders, allocated, price } = asset.stats
   const publisherNameOrOwner = getPublisherNameOrOwner(asset)
-  const isUnsupportedPricing = asset?.accessDetails?.type === 'NOT_SUPPORTED'
+  const isUnsupportedPricing =
+    !asset.services.length ||
+    asset?.stats?.price?.value === undefined ||
+    asset?.accessDetails?.type === 'NOT_SUPPORTED'
   const { locale } = useUserPreferences()
 
   return (
