@@ -78,7 +78,7 @@ module.exports = {
   oidcLoginTabButton:
     process.env.NEXT_PUBLIC_OIDC_LOGIN_TAB_BUTTON ?? 'your account',
   oidcBackendUrl:
-    process.env.NEXT_PUBLIC_OIDC_BACKEND_URL ?? 'http://localhost:3000',
+    process.env.NEXT_PUBLIC_OIDC_BACKEND_URL ?? 'http://localhost:3001',
 
   web3RpcBasePath: process.env.WEB3_RPC_BASE_PATH ?? '/web3/rpc',
   web3RpcUrl: process.env.WEB3_RPC_URL ?? 'http://127.0.0.1:2999',
