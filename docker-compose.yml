@@ -1,0 +1,26 @@
+networks:
+  energyshr-network:
+    name: energyshr-network
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+          ip_range: 172.21.5.0/24
+          gateway: 172.21.0.1
+
+services:
+  energyshr-frontend:
+    container_name: energyshr-frontend
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    env_file:
+      - .env.energyshr.local
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    networks:
+      - energyshr-network
